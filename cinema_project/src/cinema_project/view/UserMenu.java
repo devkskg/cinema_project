@@ -24,10 +24,10 @@ public class UserMenu {
 	            sc.nextLine();
 
 	            switch (choice) {
-	                case 1 : createUser();
-	                case 2 : login();
-	                case 3 : findUserById();
-	                case 4 : deleteUser();
+	                case 1 : createUser(); break;
+	                case 2 : login(); break;
+	                case 3 : findUserById(); break;
+	                case 4 : deleteUser(); break;
 	                case 0 : System.out.println("프로그램 종료."); return;
 	                default : System.out.println("잘못된 입력입니다.");
 	            }
