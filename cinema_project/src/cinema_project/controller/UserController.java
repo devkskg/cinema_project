@@ -1,26 +1,28 @@
 package cinema_project.controller;
 
-import java.util.Optional;
-
-import cinema_project.model.dao.UserDao;
+import cinema_project.model.service.UserService;
 import cinema_project.model.vo.User;
 
 public class UserController {
-	 private UserDao userDao = new UserDao();
+	 private UserService userService = new UserService();
 
-	    public boolean createUser(User user) {
-	        return userDao.createUser(user);
+	    // 로그인
+	    public User login(String id, String pw) {
+	        return userService.login(id, pw);
 	    }
 
-	    public Optional<User> login(String userId, String userPw) {
-	        return userDao.login(userId, userPw);
+	    // 회원가입
+	    public int createUser(User user) {
+	        return userService.createUser(user);
 	    }
 
-	    public Optional<User> findUserById(String userId) {
-	        return userDao.findUserById(userId);
+	    // 아이디, 비밀번호 찾기
+	    public User searchUserInfoIdPw(String id) {
+	        return userService.searchUserInfoIdPw(id);
 	    }
 
-	    public boolean deleteUser(String userId, String userPw) {
-	        return userDao.deleteUser(userId, userPw);
+	    // 회원탈퇴
+	    public int deleteUser(String id, String pw) {
+	        return userService.deleteUser(id, pw);
 	    }
 	}

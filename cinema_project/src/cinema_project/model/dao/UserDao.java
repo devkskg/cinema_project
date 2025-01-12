@@ -4,104 +4,103 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Optional;
 
 import cinema_project.model.vo.User;
 
 public class UserDao {
-	private static final String url = "jdbc:mariadb://localhost:3306/cinema_project";
-    private static final String user = "user";
-    private static final String pw = "password";
+	private static final String url = "jdbc:mariadb://localhost:3306/cinema_project"; // DB URL
+    private static final String user = "user"; // DB 사용자명
+    private static final String pw = "pw"; // DB 비밀번호
 
-    static {
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("MariaDB Driver not found.");
-            e.printStackTrace();
-        }
+    // MySQL 연결
+    private Connection getConnection() throws Exception {
+        return DriverManager.getConnection(url, user, pw);
     }
 
-    public boolean createUser(User user) {
-        String sql = "INSERT INTO user (u_id, u_pw, u_name, u_ssn, u_phone, u_manager) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // 사용자 로그인
+    public User login(String id, String pw) {
+        String query = "SELECT * FROM user WHERE u_id = ? AND u_pw = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, id);
+            stmt.setString(2, pw);
 
-            pstmt.setString(1, user.getUserId());
-            pstmt.setString(2, user.getUserPw());
-            pstmt.setString(3, user.getUserName());
-            pstmt.setString(4, user.getUserSsn());
-            pstmt.setString(5, user.getUserPhone());
-            pstmt.setString(6, user.getUserManager());
-            return pstmt.executeUpdate() > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public Optional<User> login(String userId, String userPw) {
-        String sql = "SELECT * FROM user WHERE u_id = ? AND u_pw = ?";
-        try (Connection conn = DriverManager.getConnection(url, user, pw);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, userId);
-            pstmt.setString(2, userPw);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                User user = mapToUser(rs);
-                return Optional.of(user);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                        rs.getInt("u_no"),
+                        rs.getString("u_id"),
+                        rs.getString("u_pw"),
+                        rs.getString("u_name"),
+                        rs.getString("u_ssn"),
+                        rs.getString("u_phone"),
+                        rs.getString("u_manager")
+                    );
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
 
-    public Optional<User> findUserById(String userId) {
-        String sql = "SELECT * FROM user WHERE u_id = ?";
-        try (Connection conn = DriverManager.getConnection(url, user, pw);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // 회원가입
+    public int createUser(User user) {
+        String query = "INSERT INTO user(u_id, u_pw, u_name, u_ssn, u_phone, u_manager) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, user.getuId());
+            stmt.setString(2, user.getuPw());
+            stmt.setString(3, user.getuName());
+            stmt.setString(4, user.getuSsn());
+            stmt.setString(5, user.getuPhone());
+            stmt.setString(6, user.getuManager());
 
-            pstmt.setString(1, userId);
-            ResultSet rs = pstmt.executeQuery();
+            return stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
-            if (rs.next()) {
-                User user = mapToUser(rs);
-                return Optional.of(user);
+    // 아이디, 비밀번호 찾기
+    public User searchUserInfoIdPw(String id) {
+        String query = "SELECT * FROM user WHERE u_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                        rs.getInt("u_no"),
+                        rs.getString("u_id"),
+                        rs.getString("u_pw"),
+                        rs.getString("u_name"),
+                        rs.getString("u_ssn"),
+                        rs.getString("u_phone"),
+                        rs.getString("u_manager")
+                    );
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
 
-    public boolean deleteUser(String userId, String userPw) {
-        String sql = "DELETE FROM user WHERE u_id = ? AND u_pw = ?";
-        try (Connection conn = DriverManager.getConnection(url, user, pw);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // 회원탈퇴
+    public int deleteUser(String id, String pw) {
+        String query = "DELETE FROM user WHERE u_id = ? AND u_pw = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, id);
+            stmt.setString(2, pw);
 
-            pstmt.setString(1, userId);
-            pstmt.setString(2, userPw);
-            return pstmt.executeUpdate() > 0;
-
+            return stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
-    }
-
-    private User mapToUser(ResultSet rs) throws Exception {
-        User user = new User();
-        user.setUserNo(rs.getInt("u_no"));
-        user.setUserId(rs.getString("u_id"));
-        user.setUserPw(rs.getString("u_pw"));
-        user.setUserName(rs.getString("u_name"));
-        user.setUserSsn(rs.getString("u_ssn"));
-        user.setUserPhone(rs.getString("u_phone"));
-        user.setUserManager(rs.getString("u_manager"));
-        return user;
+        return 0;
     }
 }
