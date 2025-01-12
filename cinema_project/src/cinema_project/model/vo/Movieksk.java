@@ -6,6 +6,8 @@ public class Movieksk {
 	private int mRuntime;
 	private int mPrice;
 	private int mRating;
+	private int mCount;
+	private String mReview;
 	public Movieksk() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,6 +26,17 @@ public class Movieksk {
 		this.mRuntime = mRuntime;
 		this.mPrice = mPrice;
 		this.mRating = mRating;
+	}
+	
+	public Movieksk(int mNo, String mTitle, int mRuntime, int mPrice, int mRating, int mCount, String mReview) {
+		super();
+		this.mNo = mNo;
+		this.mTitle = mTitle;
+		this.mRuntime = mRuntime;
+		this.mPrice = mPrice;
+		this.mRating = mRating;
+		this.mCount = mCount;
+		this.mReview = mReview;
 	}
 	public int getmNo() {
 		return mNo;
@@ -54,6 +67,19 @@ public class Movieksk {
 	}
 	public void setmRating(int mRating) {
 		this.mRating = mRating;
+	}
+	
+	public int getmCount() {
+		return mCount;
+	}
+	public void setmCount(int mCount) {
+		this.mCount = mCount;
+	}
+	public String getmReview() {
+		return mReview;
+	}
+	public void setmReview(String mReview) {
+		this.mReview = mReview;
 	}
 	@Override
 	public String toString() {

@@ -2,7 +2,6 @@ package cinema_project.model.vo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class Timetableksk {
 	private int timeNo;
@@ -40,6 +39,19 @@ public class Timetableksk {
 		this.timeStart = timeStart;
 		this.timeEnd = timeEnd;
 	}
+	
+	
+	public Timetableksk(int timeNo, String mTitle, String tName, int tSeat, LocalDateTime timeStart,
+			LocalDateTime timeEnd) {
+		super();
+		this.timeNo = timeNo;
+		this.mTitle = mTitle;
+		this.tName = tName;
+		this.tSeat = tSeat;
+		this.timeStart = timeStart;
+		this.timeEnd = timeEnd;
+	}
+
 	public String getmTitle() {
 		return mTitle;
 	}
