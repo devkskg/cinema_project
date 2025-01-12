@@ -57,6 +57,8 @@ public class Menu {
 //			for(TimeTable m : list) {
 //				System.out.println(m);
 //		}
+		List<ViewTimeTable>list = controller.editTimeTable();
+		printList(list);
 		System.out.println("어떤 영화를 추가하시겠습니까(번호) ? : ");
 		int a = sc.nextInt();
 		
