@@ -5,37 +5,94 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBCTemplate {
-	 private static final String url = "jdbc:mariadb://localhost:3306/cinema_project";
-	    private static final String user = "user";
-	    private static final String pw = "password";
+	 private static final String URL = "jdbc:mariadb://localhost:3306/cinema_project";
+	    private static final String USER = "user";
+	    private static final String PASSWORD = "password";
 
 	    static {
 	        try {
+	            // MariaDB 드라이버 로드
 	            Class.forName("org.mariadb.jdbc.Driver");
 	        } catch (ClassNotFoundException e) {
-	            System.err.println("JDBC Driver not found.");
+	            System.err.println("MariaDB Driver not found.");
 	            e.printStackTrace();
 	        }
 	    }
 
+	    /**
+	     * 데이터베이스 연결을 반환합니다.
+	     * @return Connection 객체
+	     */
 	    public static Connection getConnection() {
-	        Connection connection = null;
+	        Connection conn = null;
 	        try {
-	            connection = DriverManager.getConnection(url, user, pw);
+	            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	            conn.setAutoCommit(false); // 트랜잭션 수동 제어
 	        } catch (SQLException e) {
-	            System.err.println("Failed to connect to the database.");
+	            System.err.println("Database connection failed.");
 	            e.printStackTrace();
 	        }
-	        return connection;
+	        return conn;
 	    }
 
-	    public static void close(AutoCloseable ac) {
-	        try {
-	            if (ac != null) {
-	                ac.close();
+	    /**
+	     * 커밋을 수행합니다.
+	     * @param conn Connection 객체
+	     */
+	    public static void commit(Connection conn) {
+	        if (conn != null) {
+	            try {
+	                conn.commit();
+	            } catch (SQLException e) {
+	                System.err.println("Commit failed.");
+	                e.printStackTrace();
 	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
+	        }
+	    }
+
+	    /**
+	     * 롤백을 수행합니다.
+	     * @param conn Connection 객체
+	     */
+	    public static void rollback(Connection conn) {
+	        if (conn != null) {
+	            try {
+	                conn.rollback();
+	            } catch (SQLException e) {
+	                System.err.println("Rollback failed.");
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    /**
+	     * Connection 자원을 해제합니다.
+	     * @param conn Connection 객체
+	     */
+	    public static void close(Connection conn) {
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                System.err.println("Connection close failed.");
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    /**
+	     * AutoCloseable 자원을 해제합니다.
+	     * @param ac AutoCloseable 객체 (Statement, ResultSet 등)
+	     */
+	    public static void close(AutoCloseable ac) {
+	        if (ac != null) {
+	            try {
+	                ac.close();
+	            } catch (Exception e) {
+	                System.err.println("Resource close failed.");
+	                e.printStackTrace();
+	            }
 	        }
 	    }
 	}
+

@@ -1,75 +1,89 @@
 package cinema_project.model.vo;
 
 public class User {
-	 private int userNo;
-	    private String userId;
-	    private String userPw;
-	    private String userName;
-	    private String userSsn;
-	    private String userPhone;
-	    private String isAdmin;
+	private int userNo;
+    private String userId;
+    private String userPw;
+    private String userName;
+    private String userSsn;
+    private String userPhone;
+    private String userManager;
 
-	    // Getters and Setters
-	    public int getUserNo() {
-	        return userNo;
-	    }
+    // Constructors, Getters, Setters, and toString
+    public User() {}
 
-	    public void setUserNo(int userNo) {
-	        this.userNo = userNo;
-	    }
+    public User(String userId, String userPw, String userName, String userSsn, String userPhone) {
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userName = userName;
+        this.userSsn = userSsn;
+        this.userPhone = userPhone;
+        this.userManager = "N";
+    }
 
-	    public String getUserId() {
-	        return userId;
-	    }
+    public int getUserNo() {
+        return userNo;
+    }
 
-	    public void setUserId(String userId) {
-	        this.userId = userId;
-	    }
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
 
-	    public String getUserPw() {
-	        return userPw;
-	    }
+    public String getUserId() {
+        return userId;
+    }
 
-	    public void setUserPw(String userPw) {
-	        this.userPw = userPw;
-	    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	    public String getUserName() {
-	        return userName;
-	    }
+    public String getUserPw() {
+        return userPw;
+    }
 
-	    public void setUserName(String userName) {
-	        this.userName = userName;
-	    }
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
 
-	    public String getUserSsn() {
-	        return userSsn;
-	    }
+    public String getUserName() {
+        return userName;
+    }
 
-	    public void setUserSsn(String userSsn) {
-	        this.userSsn = userSsn;
-	    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	    public String getUserPhone() {
-	        return userPhone;
-	    }
+    public String getUserSsn() {
+        return userSsn;
+    }
 
-	    public void setUserPhone(String userPhone) {
-	        this.userPhone = userPhone;
-	    }
+    public void setUserSsn(String userSsn) {
+        this.userSsn = userSsn;
+    }
 
-	    public String getIsAdmin() {
-	        return isAdmin;
-	    }
+    public String getUserPhone() {
+        return userPhone;
+    }
 
-	    public void setIsAdmin(String isAdmin) {
-	        this.isAdmin = isAdmin;
-	    }
-	}
-//		@Override
-//		public String toString() {
-//			return " [유저번호 : " + userNo + ", 아이디 : " + userId + ", 비밀번호 : " + userPw + ", 이름 : " + userName
-//					+ ", 주민등록번호 : " + userSsn + ", 전화번호 : " + userPhone + ", 관리자 : " + isManager + "]";
-//		}
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
+    public String getUserManager() {
+        return userManager;
+    }
 
+    public void setUserManager(String userManager) {
+        this.userManager = userManager;
+    }
+
+    @Override
+    public String toString() {
+        return "[번호: " + userNo +
+                ", 아이디: " + userId +
+                ", 이름: " + userName +
+                ", 주민등록번호: " + userSsn +
+                ", 전화번호: " + userPhone +
+                ", 관리자 여부: " + userManager + "]";
+    }
+}
