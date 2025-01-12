@@ -31,4 +31,16 @@ public class Controllerksk {
 	public int deleteRes(Reservationksk res) {
 		return se.deleteRes(res);
 	}
+//	후기 남기기 자격 확인
+	public List<Reservationksk> createReviewQualification(String createReviewHour) {
+		return se.createReviewQualification(createReviewHour);
+	}
+//	후기 남기기
+	public int createReviewOne(Reservationksk reservationksk, String reviewStr) {
+		return se.createReviewOne(reservationksk, reviewStr);
+	}
+//	영화 후기 조회
+	public Movieksk searchReviewOne(Movieksk searchReview) {
+		return se.searchReviewOne(searchReview);
+	}
 }

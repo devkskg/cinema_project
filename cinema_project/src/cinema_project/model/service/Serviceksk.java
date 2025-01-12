@@ -51,4 +51,25 @@ public class Serviceksk {
 		close(conn);
 		return result;
 	}
+//	후기 남기기 자격 확인
+	public List<Reservationksk> createReviewQualification(String createReviewHour) {
+		Connection conn = getConnection();
+		List<Reservationksk> list = dao.createReviewQualification(conn, createReviewHour);
+		close(conn);
+		return list;
+	}
+
+	public int createReviewOne(Reservationksk reservationksk, String reviewStr) {
+		Connection conn = getConnection();
+		int result = dao.createReviewOne(conn, reservationksk, reviewStr);
+		close(conn);
+		return result;
+	}
+
+	public Movieksk searchReviewOne(Movieksk searchReview) {
+		Connection conn = getConnection();
+		Movieksk searchReviewMovie = dao.searchReviewOne(conn, searchReview);
+		close(conn);
+		return searchReviewMovie;
+	}
 }

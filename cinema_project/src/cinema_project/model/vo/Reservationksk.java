@@ -1,11 +1,14 @@
 package cinema_project.model.vo;
 
+import java.time.LocalDateTime;
+
 public class Reservationksk {
 	private int rNo;
 	private int uNo;
 	private String mTitle;
 	private String tName;
 	private int rSeat;
+	private LocalDateTime rDate;
 	
 	public Reservationksk() {
 		super();
@@ -27,6 +30,16 @@ public class Reservationksk {
 	
 	
 	
+	
+	public Reservationksk(int rNo, int uNo, String mTitle, String tName, int rSeat, LocalDateTime rDate) {
+		super();
+		this.rNo = rNo;
+		this.uNo = uNo;
+		this.mTitle = mTitle;
+		this.tName = tName;
+		this.rSeat = rSeat;
+		this.rDate = rDate;
+	}
 	public int getrSeat() {
 		return rSeat;
 	}
