@@ -8,8 +8,19 @@ public class TimeTable {
 	private String tName;
 	private String timeStart;
 	private String timeEnd;
+	private int mNo;
+	private int mRuntime;
+	
 	
 	public TimeTable() {}
+	
+	public TimeTable(int mNo, int mRuntime ,String mTitle ,String tName) {
+		this.mNo = mNo;
+		this.mRuntime = mRuntime;
+		this.mTitle = mTitle;
+		this.tName = tName;
+		
+	}
 	
 	public TimeTable(String mTitle , String tName , String timeStart , String timeEnd) {
 		this.mTitle = mTitle;
@@ -24,6 +35,22 @@ public class TimeTable {
 		this.tName = tName;
 		this.timeStart = timeStart;
 		this.timeEnd = timeEnd;
+	}
+	
+	public int getmNo() {
+		return mNo;
+	}
+	
+	public void setMno(int mNo) {
+		this.mNo = mNo;
+	}
+	
+	public int getmRuntime() {
+		return mRuntime;
+	}
+	
+	public void setmRuntime(int mRuntime) {
+		this.mRuntime = mRuntime;
 	}
 
 	public int getTimeNo() {

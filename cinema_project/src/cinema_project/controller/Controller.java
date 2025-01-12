@@ -2,8 +2,11 @@ package cinema_project.controller;
 
 
 
+import java.util.List;
+
 import cinema_project.model.service.Service;
 import cinema_project.model.vo.TimeTable;
+import cinema_project.model.vo.ViewTimeTable;
 
 public class Controller {
 	private Service service = new Service();
@@ -14,7 +17,11 @@ public class Controller {
 		int result = service.createTimetable(tm);
 		return result;
 	}
-
+	
+	public List<ViewTimeTable> editTimeTable(){
+		return service.editTimeTable();
+	
+	}
 
 
 }
