@@ -1,10 +1,8 @@
 package cinema_project.controller;
 
-import java.sql.Connection;
 import java.util.Optional;
 
 import cinema_project.model.dao.UserDao;
-import cinema_project.model.service.UserService;
 import cinema_project.model.vo.User;
 
 public class UserController {

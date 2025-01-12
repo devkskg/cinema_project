@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
 
-import cinema_project.common.JDBCTemplate;
 import cinema_project.model.vo.User;
 
 public class UserDao {

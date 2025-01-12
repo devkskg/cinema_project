@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBCTemplate {
-	 private static final String URL = "jdbc:mariadb://localhost:3306/cinema_project";
-	    private static final String USER = "user";
-	    private static final String PASSWORD = "password";
+	 private static final String url = "jdbc:mariadb://localhost:3306/cinema_project";
+	    private static final String user = "user";
+	    private static final String pw = "password";
 
 	    static {
 	        try {
@@ -26,7 +26,7 @@ public class JDBCTemplate {
 	    public static Connection getConnection() {
 	        Connection conn = null;
 	        try {
-	            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	            conn = DriverManager.getConnection(url,user,pw);
 	            conn.setAutoCommit(false); // 트랜잭션 수동 제어
 	        } catch (SQLException e) {
 	            System.err.println("Database connection failed.");
