@@ -11,16 +11,17 @@ import cinema_project.model.vo.ViewTimeTable;
 public class Controller {
 	private Service service = new Service();
 	
-	//7번 영화 시간표 추가
-	public int createTimetable(String movie,String theater,String start,String end) {
-		TimeTable tm = new TimeTable(movie,theater,start,end);
-		int result = service.createTimetable(tm);
-		return result;
+
+	
+	// --타임테이블 전체 조회 메소드--
+	public List<TimeTable> viewTimeTable(){
+		return service.viewTimeTable();
 	}
 	
-	public List<ViewTimeTable> editTimeTable(){
-		return service.editTimeTable();
-	
+	// 9번 영화 시간표 삭제
+	public int deleteTimetable(int delete) {
+		int result = service.deleteTimeTable(delete);
+		return result;
 	}
 
 

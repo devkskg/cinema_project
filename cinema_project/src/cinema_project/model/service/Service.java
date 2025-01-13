@@ -12,18 +12,21 @@ import cinema_project.model.vo.ViewTimeTable;
 
 public class Service {
 	private Dao dao = new Dao();
-	public int createTimetable(TimeTable tm) {
-		Connection conn = getConnection();
-		int result = dao.createTimetable(tm , conn);
-		close(conn);
-		return result;
-	}
+
 	
-	public List<ViewTimeTable> editTimeTable(){
+	
+	public  List<TimeTable> viewTimeTable(){
 		Connection conn = getConnection();
-		List<ViewTimeTable> list = dao.editTimeTable(conn);
+		List<TimeTable> list = dao.viewTimeTable(conn);
 		close(conn);
 		return list;
+	}
+	
+	public int deleteTimeTable(int delete) {
+		Connection conn = getConnection();
+		int result = dao.deleteTimeTable(delete , conn);
+		close(conn);
+		return result;
 	}
 	
 	

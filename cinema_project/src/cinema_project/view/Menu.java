@@ -35,9 +35,9 @@ public class Menu {
 			case 4 : break;
 			case 5 : break;
 			case 6 : break;
-			case 7 : createTimetable();break;
-			case 8 : editTimetable(); break;
-			case 9 : break;
+//			case 7 : createTimetable();break;
+//			case 8 : editTimetable(); break;
+			case 9 : deleteTimetable(); break;
 			case 10 : System.out.println("***로그아웃 완료***"); return;
 			default : System.out.println("잘못된 번호를 입력하였습니다 다시 입력해주세요!!"); break;
 			
@@ -47,75 +47,41 @@ public class Menu {
 	
 		
 	
-	// 7번 영화 시간표 추가
-	public void createTimetable() {
-		System.out.println("=========영화 시간표 추가=========");
-//		List <TimeTable> list = controller.createTimeTable();
-//		if(list.isEmpty()) {
-//			System.out.println("조회된 결과가 없습니다.");
-//		} else {
-//			for(TimeTable m : list) {
-//				System.out.println(m);
-//		}
-		List<ViewTimeTable>list = controller.editTimeTable();
-		printList(list);
-		System.out.println("어떤 영화를 추가하시겠습니까(번호) ? : ");
-		int a = sc.nextInt();
-		
-		System.out.println("영화 제목 : ");
-		String movie = sc.nextLine();
-		sc.nextLine();
-		System.out.println("상영관 이름 : ");
-		String theater = sc.nextLine();
-		System.out.print("상영 시작시간 : ");
-		String start = sc.nextLine();
-		System.out.print("상영 종료시간 : ");
-		String end = sc.nextLine();
-		
-		int result = controller.createTimetable(movie ,theater ,start ,end);
-		if(result > 0) {
-			System.out.println("성공적으로 추가하였습니다");
-		}else {
-			System.out.println("추가 중 오류가 발생하였습니다 ㅠㅡㅠ");
-		}	
-		
-		
-		
-		
-
-		
-		
-	
-	
-	
-	
-//	public void dmlResultPrint(int result , String menuName) {
-//		if(result > 0) System.out.println(menuName+"이(가) 정상 수행되었습니다");
-//		else System.out.println(menuName + "중 오류가 발생하였습니다");
-//	}
-//	
-		
-	
-
-}
-	
-	public void editTimetable() {
-		List<ViewTimeTable>list = controller.editTimeTable();
-		printList(list);
-		System.out.println("어떤 영화를 수정하시겠습니까(번호) : ");
-			
-}
 
 	
-	public void printList(List<ViewTimeTable> list) {
+	
+
+	// -타임테이블 전체 조회 메소드-
+	public List<TimeTable> viewTimeTable() {
+		List<TimeTable>list = controller.viewTimeTable();
+		return list;
+	}
+	
+	// -타임테이블 전체 결과 메소드-
+	public void printList(List<TimeTable> list) {
 		if(list.isEmpty()) {
 			System.out.println("조회된 결과가 없습니다.");
 		} else {
-			for(ViewTimeTable m : list) {
+			for(TimeTable m : list) {
 				System.out.println(m);
+			}
+			
 		}
-					
-}
 		
 	}
-}
+	
+	
+	public void deleteTimetable() {
+		List<TimeTable> list = controller.viewTimeTable();
+		printList(list);
+		System.out.println("삭제하고자 하는 영화번호를 입력해주세요 : ");
+		int delete = sc.nextInt();
+		int result = controller.deleteTimetable(delete);
+		if(result > 0) {
+			System.out.println("성공적으로 삭제했습니다!");
+		}else {
+			System.out.println("!!!!삭제 중 오류!!!!");
+		}
+		}
+	
+	}
