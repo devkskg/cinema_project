@@ -15,8 +15,16 @@ import cinema_project.model.vo.TimeTable;
 public class Service {
 	private Dao dao = new Dao();
 	
+	public int createTimetable(int no, String name, String start, String convertEndtime) {
+		Connection conn = getConnection();
+		int result = dao.createTimetable(no,name,start,convertEndtime,conn);
+		close(conn);
+		return result;
+	}
 	
 	
+	
+	// theater 테이블 목록 조회
 	public List<Theater> viewTheater(){
 		Connection conn = getConnection();
 		List<Theater> list = dao.viewTheater(conn);
@@ -24,7 +32,7 @@ public class Service {
 		return list;
 	}
 	
-	
+	//movie 테이블 목록 조회
 	public List<Movie> viewMovie(){
 		Connection conn = getConnection();
 		List<Movie> list = dao.viewMovie(conn);
@@ -32,7 +40,7 @@ public class Service {
 		return list;
 	}
 	
-	
+	//timetable 테이블 목록조회
 	public  List<TimeTable> viewTimeTable(){
 		Connection conn = getConnection();
 		List<TimeTable> list = dao.viewTimeTable(conn);
@@ -40,6 +48,7 @@ public class Service {
 		return list;
 	}
 	
+	//9번 영화 시간표 삭제
 	public int deleteTimeTable(int delete) {
 		Connection conn = getConnection();
 		int result = dao.deleteTimeTable(delete , conn);
@@ -48,11 +57,7 @@ public class Service {
 	}
 
 
-	public int TimeTable(int no, String name, String start, String end) {
-		
-		return 0;
-	}
-	
+
 	
 
 }

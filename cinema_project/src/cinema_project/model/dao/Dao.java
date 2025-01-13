@@ -15,6 +15,34 @@ import cinema_project.model.vo.TimeTable;
 public class Dao {
 	
 	
+	public int createTimetable(int no, String name, String start, String convertEndtime , Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			String sql = "INSERT INTO timetable(m_title, t_name, time_start ,time_end) "
+						+ "VALUES('?', '?', '?', DATE_ADD(STR_TO_DATE(time_start, '%Y-%m-%d %T'), INTERVAL ? minute))";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			pstmt.setString(2, name);
+			pstmt.setString(3, start);
+			pstmt.setString(4, convertEndtime);
+			result = pstmt.executeUpdate();		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	
+
+
+
+
+	//theater 테이블 목록조회
 	public List<Theater> viewTheater(Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -43,7 +71,7 @@ public class Dao {
 	
 	
 	
-	
+	//movie 테이블 목록조회
 	public List<Movie> viewMovie (Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -72,7 +100,7 @@ public class Dao {
 		return list;
 	}
 	
-	
+	// timetable 목록조회
 	public List<TimeTable> viewTimeTable(Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -99,6 +127,8 @@ public class Dao {
 		return list;
 	}
 	
+	
+	// 9번 영화시간표 삭제
 	public int deleteTimeTable(int delete , Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;

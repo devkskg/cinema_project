@@ -1,6 +1,7 @@
 package cinema_project.view;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,13 +58,15 @@ public class Menu {
 		System.out.print("영화 번호 : ");
 		int no = sc.nextInt();
 		System.out.print("영화 제목 : ");
+		sc.nextLine();
 		String name = sc.nextLine();
-		System.out.print("시작시간 : ");
+		System.out.print("시작시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String start = sc.nextLine();
-		System.out.print("끝나는 시간 : ");
-		String end = sc.nextLine();
+		System.out.print("끝나는 시간 (런타임<분>) : ");
+		String convertEndtime = start + list.get(no).getmRuntime(); 
 		
-		int result = controller.createTimetable(no,name,start,end);
+		
+		int result = controller.createTimetable(no,name,start,convertEndtime);
 		if(result > 0 ) {
 			System.out.println("성공적으로 추가하였습니다!");
 		}else {
