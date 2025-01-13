@@ -15,6 +15,10 @@ public class Menuksk {
 	private Controllerksk co = new Controllerksk();
 
 //	private String phone = "010-1111-1111";
+	
+	
+	
+	
 //	유저 메뉴
 	public void userMenu() {
 		System.out.println("ㅇㅇㅇ님 ㅎㅇㅎㄴㄷ");
@@ -107,10 +111,15 @@ public class Menuksk {
 
 //							시간표로 예매 진행, Transaction 사용
 							int ticketResResult = co.ticketRes(timetableList.get(timeNum - 1), resSeatNum);
-							if (ticketResResult > 0) {
-								System.out.println("예매가 완료되었습니다.");
-							} else {
+							if (ticketResResult <= 0) {
 								System.out.println("예매에 실패했습니다.");
+							} 
+//							나이 제한(rating)에 걸릴때 예매 실패
+//							else if(유저의 나이 < movieList.get(resMovieNum - 1).getmRating()) {
+//								System.out.println("관람 가능한 연령이 아닙니다.");
+//							} 
+							else {
+								System.out.println("예매가 완료되었습니다.");
 							}
 							return;
 						}
@@ -206,6 +215,7 @@ public class Menuksk {
 				} else {
 					System.out.print("후기 작성 : ");
 					String reviewStr = sc.nextLine();
+//					reviewStr += 유저이름 김*수 이렇게 처리한거
 					reviewStr += "\n";
 					result = co.createReviewOne(qualifList.get(reviewNum - 1), reviewStr);
 					if (result > 0) {
@@ -231,6 +241,7 @@ public class Menuksk {
 				System.out.println("잘못 입력하셨습니다.");
 			} else {
 				Movieksk searchReviewMovie = co.searchReviewOne(list.get(reviewNum-1));
+//				Movieksk searchReviewMovie = co.searchReviewOne(list.get(reviewNum-1, 유저의 정보(이름)));
 				if (searchReviewMovie.getmReview().length() == 0 || searchReviewMovie == null) {
 					System.out.println("--작성된 후기가 없습니다.--");
 				} else {

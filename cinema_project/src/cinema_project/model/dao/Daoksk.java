@@ -238,10 +238,13 @@ public class Daoksk {
 		int result = 0;
 		try {
 			String sql = "update movie m join reservation r on m.m_title = r.m_title set m_review = concat(m_review, ?) where r.u_no = ?";
+//			String sql = "update movie m join reservation r on m.m_title = r.m_title set m_review = concat(m_review, ?) where r.u_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reviewStr);
 //			테스트용 철수의 u_no 사용
 			pstmt.setInt(2, 2);
+//			pstmt.setString(1, reviewStr);
+//			pstmt.setString(2, 유저번호);
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
