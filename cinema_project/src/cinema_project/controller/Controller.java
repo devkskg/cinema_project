@@ -2,18 +2,39 @@ package cinema_project.controller;
 
 
 
+
+
 import java.util.List;
 
 import cinema_project.model.service.Service;
+import cinema_project.model.vo.Movie;
+import cinema_project.model.vo.Theater;
 import cinema_project.model.vo.TimeTable;
-import cinema_project.model.vo.ViewTimeTable;
+
 
 public class Controller {
 	private Service service = new Service();
+
+	public int createTimetable(int no, String name, String start, String end) {
+		int result = service.TimeTable(no,name,start,end);
+		return result;
+		
+	}
 	
+	
+	// --상영관 테이블 전체 조회 메소드--
+	public List<Theater> viewTheater(){
+		return service.viewTheater();
+	}
 
 	
-	// --타임테이블 전체 조회 메소드--
+	// --movie 테이블 전제 조회 메소드--
+	public List<Movie> viewMovie(){
+		return service.viewMovie();
+	}
+	
+	
+	// --timetable 전체 조회 메소드--
 	public List<TimeTable> viewTimeTable(){
 		return service.viewTimeTable();
 	}

@@ -1,35 +1,29 @@
 package cinema_project.model.vo;
 
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TimeTable {
 	private int timeNo;
 	private String mTitle;
 	private String tName;
-	private String timeStart;
-	private String timeEnd;
-	private int mNo;
-	private int mRuntime;
+	private LocalDateTime timeStart;
+	private LocalDateTime timeEnd;
+	
 	
 	
 	public TimeTable() {}
 	
-	public TimeTable(int mNo, int mRuntime ,String mTitle ,String tName) {
-		this.mNo = mNo;
-		this.mRuntime = mRuntime;
-		this.mTitle = mTitle;
-		this.tName = tName;
-		
-	}
+
 	
-	public TimeTable(String mTitle , String tName , String timeStart , String timeEnd) {
+	public TimeTable(String mTitle , String tName , LocalDateTime timeStart , LocalDateTime timeEnd) {
 		this.mTitle = mTitle;
 		this.tName = tName;
 		this.timeStart = timeStart;
 		this.timeEnd = timeEnd;
 	}
 
-	public TimeTable(int timeNo, String mTitle, String tName, String timeStart, String timeEnd) {
+	public TimeTable(int timeNo, String mTitle, String tName, LocalDateTime timeStart, LocalDateTime timeEnd) {
 		this.timeNo = timeNo;
 		this.mTitle = mTitle;
 		this.tName = tName;
@@ -37,21 +31,6 @@ public class TimeTable {
 		this.timeEnd = timeEnd;
 	}
 	
-	public int getmNo() {
-		return mNo;
-	}
-	
-	public void setMno(int mNo) {
-		this.mNo = mNo;
-	}
-	
-	public int getmRuntime() {
-		return mRuntime;
-	}
-	
-	public void setmRuntime(int mRuntime) {
-		this.mRuntime = mRuntime;
-	}
 
 	public int getTimeNo() {
 		return timeNo;
@@ -77,29 +56,30 @@ public class TimeTable {
 		this.tName = tName;
 	}
 
-	public String getTimeStart() {
+	public LocalDateTime getTimeStart() {
 		return timeStart;
 	}
 
-	public void setTimeStart(String timeStart) {
+	public void setTimeStart(LocalDateTime timeStart) {
 		this.timeStart = timeStart;
 	}
 
-	public String getTimeEnd() {
+	public LocalDateTime getTimeEnd() {
 		return timeEnd;
 	}
 
-	public void setTimeEnd(String timeEnd) {
+	public void setTimeEnd(LocalDateTime timeEnd) {
 		this.timeEnd = timeEnd;
 	}
 
 	@Override
 	public String toString() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss");
 		return "[timeNo=" + timeNo  
 				+ ", mTitle=" + mTitle 
 				+ ", tName=" + tName
-				+ ", timeStart=" + timeStart
-				+ ", timeEnd=" + timeEnd + "]";
+				+ ", timeStart=" + timeStart.format(dtf)
+				+ ", timeEnd=" + timeEnd.format(dtf) + "]";
 	}
 	
 	
