@@ -16,12 +16,26 @@ public class Menuksk {
 
 //	private String phone = "010-1111-1111";
 	
+//	테스트용 임의의 시간 설정
+//		LocalDateTime ldtNow = LocalDateTime.now();
+	private LocalDateTime ldtNow = LocalDateTime.of(2025, 01, 17, 13, 0, 0);
+//	test용 현재 시간
+	private DateTimeFormatter testdtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일, a KK시 mm분 SS초");
+	private DateTimeFormatter qualification = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
+	private String testNowDateTime = ldtNow.format(testdtf);
+	private String qualificationDateTime = ldtNow.format(qualification);
+//	리뷰용 검증 시간(현재시간 + 3시간)
+//	생각해보니 구지? 그냥 영화 끝나는 시간 < 현재시간이면 되는거 아님?
+//	private LocalDateTime ldtHour = ldtNow.plusHours(3);
+//	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
+//	private String createReviewHour = ldtHour.format(dtf);
 	
 	
 	
 //	유저 메뉴
 	public void userMenu() {
 		System.out.println("ㅇㅇㅇ님 ㅎㅇㅎㄴㄷ");
+		System.out.println(testNowDateTime);
 
 		while (true) {
 			System.out.println("1. 티켓 예매");
@@ -88,8 +102,9 @@ public class Menuksk {
 				System.out.println("잘못 입력하셨습니다.");
 			} else {
 //				선택한 영화의 영화 시간표 조회
+//				연령제한 -- 처음부터 사용자의 나이 정보를 인자로 넣어서 timetableList 가져오자.
 				List<Timetableksk> timetableList = co
-						.searchTimetableListByMovieTitle(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum);
+						.searchTimetableListByMovieTitleDate(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum, qualificationDateTime);
 				if (timetableList.isEmpty()) {
 					System.out.println("예매할 수 없는 영화입니다.");
 					return;
@@ -107,18 +122,13 @@ public class Menuksk {
 						if (timeNum <= 0 || timetableList.size() < timeNum) {
 							System.out.println("예매하실 시간을 잘못 입력하셨습니다.");
 						} else {
-//							여기서 할인된 가격 물어보고 진짜 예매할건지 확인 필요
 
 //							시간표로 예매 진행, Transaction 사용
 							int ticketResResult = co.ticketRes(timetableList.get(timeNum - 1), resSeatNum);
 							if (ticketResResult <= 0) {
 								System.out.println("예매에 실패했습니다.");
-							} 
-//							나이 제한(rating)에 걸릴때 예매 실패
-//							else if(유저의 나이 < movieList.get(resMovieNum - 1).getmRating()) {
-//								System.out.println("관람 가능한 연령이 아닙니다.");
-//							} 
-							else {
+							} else {
+//							여기서 할인된 가격 물어보고 진짜 예매할건지 확인 필요
 								System.out.println("예매가 완료되었습니다.");
 							}
 							return;
@@ -185,13 +195,9 @@ public class Menuksk {
 	}
 
 //	후기 남기기 자격 확인 // 리뷰 자격 - 예매 기록이 있고 그 기록이 3시간 이상 흐를 것
+//	위 조건 안됨. 예매를 하루 전에 하는 경우도 있으니까. -> 예매한 영화의 시작시간 + 3시간 이상 흐를 것.
 	public List<Reservationksk> createReviewQualification() {
-//		LocalDateTime ldtNow = LocalDateTime.now();
-		LocalDateTime ldtNow = LocalDateTime.of(2025, 01, 11, 12, 0, 0);
-		LocalDateTime ldtHour = ldtNow.plusHours(3);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
-		String createReviewHour = ldtHour.format(dtf);
-		List<Reservationksk> qualifList = co.createReviewQualification(createReviewHour);
+		List<Reservationksk> qualifList = co.createReviewQualification(qualificationDateTime);
 		return qualifList;
 	}
 
@@ -215,7 +221,7 @@ public class Menuksk {
 				} else {
 					System.out.print("후기 작성 : ");
 					String reviewStr = sc.nextLine();
-//					reviewStr += 유저이름 김*수 이렇게 처리한거
+//					reviewStr += 김*수+" : "; 이렇게 처리한거
 					reviewStr += "\n";
 					result = co.createReviewOne(qualifList.get(reviewNum - 1), reviewStr);
 					if (result > 0) {

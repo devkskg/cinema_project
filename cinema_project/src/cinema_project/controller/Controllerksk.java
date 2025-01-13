@@ -16,8 +16,8 @@ public class Controllerksk {
 	}
 
 //	선택한 영화의 영화 시간표 조회
-	public List<Timetableksk> searchTimetableListByMovieTitle(String movieTitle, int resSeatNum) {
-		return se.searchTimetableListByMovieTitle(movieTitle, resSeatNum);
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime) {
+		return se.searchTimetableListByMovieTitleDate(movieTitle, resSeatNum, qualificationDateTime);
 	}
 //	시간표로 예매 진행, Transaction 사용
 	public int ticketRes(Timetableksk movieRes, int resSeatNum) {
@@ -32,8 +32,8 @@ public class Controllerksk {
 		return se.deleteRes(res);
 	}
 //	후기 남기기 자격 확인
-	public List<Reservationksk> createReviewQualification(String createReviewHour) {
-		return se.createReviewQualification(createReviewHour);
+	public List<Reservationksk> createReviewQualification(String qualificationDateTime) {
+		return se.createReviewQualification(qualificationDateTime);
 	}
 //	후기 남기기
 	public int createReviewOne(Reservationksk reservationksk, String reviewStr) {

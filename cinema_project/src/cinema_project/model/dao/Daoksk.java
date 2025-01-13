@@ -58,15 +58,16 @@ public class Daoksk {
 	}
 
 //	선택한 영화의 영화 시간표 조회
-	public List<Timetableksk> searchTimetableListByMovieTitle(Connection conn, String movieTitle, int resSeatNum) {
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(Connection conn, String movieTitle, int resSeatNum, String qualificationDateTime) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Timetableksk> list = new ArrayList<Timetableksk>();
 		try {
-			String sql = "select time.* ,t.t_seat from timetable time join theater t on time.t_name = t.t_name where time.m_title = ? and t.t_seat >= ?";
+			String sql = "select time.* ,t.t_seat from timetable time join theater t on time.t_name = t.t_name where time.m_title = ? and t.t_seat >= ? and time.time_start > str_to_date(?, '%Y-%m-%d %T')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, movieTitle);
 			pstmt.setInt(2, resSeatNum);
+			pstmt.setString(3, qualificationDateTime);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				list.add(new Timetableksk(rs.getInt("time.time_no"), rs.getString("time.m_title"),
@@ -207,16 +208,17 @@ public class Daoksk {
 
 //	후기 남기기 자격 확인
 //	reservation을 기반으로 한다 -> FK들 자식들 삭제 되더라도 기록 남아야함.
-	public List<Reservationksk> createReviewQualification(Connection conn, String createReviewHour) {
+	public List<Reservationksk> createReviewQualification(Connection conn, String qualificationDateTime) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Reservationksk> list = new ArrayList<Reservationksk>();
 		try {
-			String sql = "select * from reservation where u_no = ? and r_date > str_to_date(?, '%Y-%m-%d %T')";
+//			String sql = "select * from reservation where u_no = ? and r_date > str_to_date(?, '%Y-%m-%d %T')";
+			String sql = "select r.* from reservation r join timetable t on t.time_no = r.time_no where r.u_no = ? and t.time_end < str_to_date(?, '%Y-%m-%d %T')";
 			pstmt = conn.prepareStatement(sql);
 //			테스트용 철수의 u_no 사용
 			pstmt.setInt(1, 2);
-			pstmt.setString(2, createReviewHour);
+			pstmt.setString(2, qualificationDateTime);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				list.add(new Reservationksk(rs.getInt("r_no"), rs.getInt("u_no"), rs.getString("m_title"),

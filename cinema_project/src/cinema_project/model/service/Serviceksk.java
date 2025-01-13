@@ -23,9 +23,9 @@ public class Serviceksk {
 	}
 
 //	선택한 영화의 영화 시간표 조회
-	public List<Timetableksk> searchTimetableListByMovieTitle(String movieTitle, int resSeatNum) {
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime) {
 		Connection conn = getConnection();
-		List<Timetableksk> list = dao.searchTimetableListByMovieTitle(conn, movieTitle, resSeatNum);
+		List<Timetableksk> list = dao.searchTimetableListByMovieTitleDate(conn, movieTitle, resSeatNum, qualificationDateTime);
 		close(conn);
 		return list;
 	}
@@ -52,9 +52,9 @@ public class Serviceksk {
 		return result;
 	}
 //	후기 남기기 자격 확인
-	public List<Reservationksk> createReviewQualification(String createReviewHour) {
+	public List<Reservationksk> createReviewQualification(String qualificationDateTime) {
 		Connection conn = getConnection();
-		List<Reservationksk> list = dao.createReviewQualification(conn, createReviewHour);
+		List<Reservationksk> list = dao.createReviewQualification(conn, qualificationDateTime);
 		close(conn);
 		return list;
 	}
