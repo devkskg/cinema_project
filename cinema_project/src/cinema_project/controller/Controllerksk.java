@@ -15,9 +15,13 @@ public class Controllerksk {
 		return se.searchMovieList();
 	}
 
-//	선택한 영화의 영화 시간표 조회
+//	선택한 영화의 시간표 조회 영화 제목과 정해진 시간으로 조회
 	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime) {
 		return se.searchTimetableListByMovieTitleDate(movieTitle, resSeatNum, qualificationDateTime);
+	}
+//	선택한 영화의 시간표 조회 시간표번호로 조회
+	public Timetableksk searchTimetableListByTimeNo(int TimeNo) {
+		return se.searchTimetableListByTimeNo(TimeNo);
 	}
 //	시간표로 예매 진행, Transaction 사용
 	public int ticketRes(Timetableksk movieRes, int resSeatNum) {

@@ -9,29 +9,16 @@ public class Reservationksk {
 	private String tName;
 	private int rSeat;
 	private LocalDateTime rDate;
+	private int timeNo;
 	
 	public Reservationksk() {
 		super();
 	}
-	public Reservationksk(int rNo, int uNo, String mTitle, String tName, int rSeat) {
-		super();
-		this.rNo = rNo;
-		this.uNo = uNo;
-		this.mTitle = mTitle;
-		this.tName = tName;
-		this.rSeat = rSeat;
-	}
-	public Reservationksk(String mTitle, String tName, int rSeat) {
-		super();
-		this.mTitle = mTitle;
-		this.tName = tName;
-		this.rSeat = rSeat;
-	}
 	
 	
 	
 	
-	public Reservationksk(int rNo, int uNo, String mTitle, String tName, int rSeat, LocalDateTime rDate) {
+	public Reservationksk(int rNo, int uNo, String mTitle, String tName, int rSeat, LocalDateTime rDate, int timeNo) {
 		super();
 		this.rNo = rNo;
 		this.uNo = uNo;
@@ -39,6 +26,7 @@ public class Reservationksk {
 		this.tName = tName;
 		this.rSeat = rSeat;
 		this.rDate = rDate;
+		this.timeNo = timeNo;
 	}
 	public int getrSeat() {
 		return rSeat;
@@ -70,6 +58,28 @@ public class Reservationksk {
 	public void settName(String tName) {
 		this.tName = tName;
 	}
+	
+	public LocalDateTime getrDate() {
+		return rDate;
+	}
+	public void setrDate(LocalDateTime rDate) {
+		this.rDate = rDate;
+	}
+	
+	public int getTimeNo() {
+		return timeNo;
+	}
+
+
+
+
+	public void setTimeNo(int timeNo) {
+		this.timeNo = timeNo;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "영화제목 : " + mTitle + ", 상영관이름 : " + tName + ", 예매 좌석수 : " + rSeat;

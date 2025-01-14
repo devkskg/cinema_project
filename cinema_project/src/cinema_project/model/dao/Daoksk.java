@@ -57,7 +57,7 @@ public class Daoksk {
 		return list;
 	}
 
-//	선택한 영화의 영화 시간표 조회
+//	선택한 영화의 시간표 조회 영화 제목과 정해진 시간으로 조회
 	public List<Timetableksk> searchTimetableListByMovieTitleDate(Connection conn, String movieTitle, int resSeatNum, String qualificationDateTime) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -84,6 +84,31 @@ public class Daoksk {
 		return list;
 	}
 
+//	선택한 영화의 시간표 조회 시간표번호로 조회
+	public Timetableksk searchTimetableListByTimeNo(Connection conn, int TimeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Timetableksk timetableByTimeNo = null;
+		try {
+			String sql = "select * from timetable where time_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, TimeNo);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				timetableByTimeNo = new Timetableksk(rs.getInt("time_no"), rs.getString("m_title"),
+						rs.getString("t_name"),
+						rs.getTimestamp("time_start").toLocalDateTime(),
+						rs.getTimestamp("time_end").toLocalDateTime());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return timetableByTimeNo;
+	}
+	
 //	시간표로 예매 진행, Transaction 사용
 //	현재 u_no = 2 (김철수)임임의로 test 진행 
 	public int ticketRes(Connection conn, Timetableksk movieRes, int resSeatNum) {
@@ -102,13 +127,14 @@ public class Daoksk {
 			cnt1 = pstmt.executeUpdate();
 
 			if (cnt1 > 0) {
-				sql = "insert into reservation(u_no, m_title, t_name, r_seat) values(?, ?, ?, ?)";
+				sql = "insert into reservation(u_no, m_title, t_name, r_seat, time_no) values(?, ?, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 //				임의로 u_no = 2 설정
 				pstmt.setInt(1, 2);
 				pstmt.setString(2, movieRes.getmTitle());
 				pstmt.setString(3, movieRes.gettName());
 				pstmt.setInt(4, resSeatNum);
+				pstmt.setInt(5, movieRes.getTimeNo());
 				cnt2 = pstmt.executeUpdate();
 			}
 			if (cnt2 > 0) {
@@ -153,7 +179,7 @@ public class Daoksk {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				list.add(new Reservationksk(rs.getInt("r_no"), rs.getInt("u_no"), rs.getString("m_title"),
-						rs.getString("t_name"), rs.getInt("r_seat")));
+						rs.getString("t_name"), rs.getInt("r_seat"), rs.getTimestamp("r_date").toLocalDateTime(), rs.getInt("time_no")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,8 +247,8 @@ public class Daoksk {
 			pstmt.setString(2, qualificationDateTime);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new Reservationksk(rs.getInt("r_no"), rs.getInt("u_no"), rs.getString("m_title"),
-						rs.getString("t_name"), rs.getInt("r_seat"), rs.getTimestamp("r_date").toLocalDateTime()));
+				list.add(new Reservationksk(rs.getInt("r.r_no"), rs.getInt("r.u_no"), rs.getString("r.m_title"),
+						rs.getString("r.t_name"), rs.getInt("r.r_seat"), rs.getTimestamp("r.r_date").toLocalDateTime(), rs.getInt("time_no")));
 			}
 
 		} catch (Exception e) {
@@ -235,6 +261,7 @@ public class Daoksk {
 		return list;
 	}
 
+//	리뷰 남기기
 	public int createReviewOne(Connection conn, Reservationksk reservationksk, String reviewStr) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -257,6 +284,7 @@ public class Daoksk {
 
 	}
 
+//	리뷰 조회
 	public Movieksk searchReviewOne(Connection conn, Movieksk searchReview) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

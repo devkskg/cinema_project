@@ -2,6 +2,7 @@ package cinema_project.view;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class Menuksk {
 //		LocalDateTime ldtNow = LocalDateTime.now();
 	private LocalDateTime ldtNow = LocalDateTime.of(2025, 01, 17, 13, 0, 0);
 //	test용 현재 시간
-	private DateTimeFormatter testdtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일, a KK시 mm분 SS초");
+	private DateTimeFormatter testdtf = DateTimeFormatter.ofPattern("yyyy년-MM월-dd일, a KK시:mm분:SS초");
 	private DateTimeFormatter qualification = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
 	private String testNowDateTime = ldtNow.format(testdtf);
 	private String qualificationDateTime = ldtNow.format(qualification);
@@ -98,6 +99,8 @@ public class Menuksk {
 
 		}
 		while (true) {
+//			선택한 영화의 시간표 조회 시간표번호로 조회
+			
 			System.out.print("예매하실 \"좌석 수\"를 입력해주세요. : ");
 			resSeatNum = sc.nextInt();
 			if (resSeatNum <= 0) {
@@ -105,8 +108,7 @@ public class Menuksk {
 			} else {
 //				선택한 영화의 영화 시간표 조회
 //				연령제한 -- 처음부터 사용자의 나이 정보를 인자로 넣어서 timetableList 가져오자.
-				List<Timetableksk> timetableList = co
-						.searchTimetableListByMovieTitleDate(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum, qualificationDateTime);
+				List<Timetableksk> timetableList = co.searchTimetableListByMovieTitleDate(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum, qualificationDateTime);
 				if (timetableList.isEmpty()) {
 					System.out.println("예매할 수 없는 영화입니다.");
 					return;
@@ -128,28 +130,30 @@ public class Menuksk {
 							int ticketPrice = movieList.get(resMovieNum-1).getmPrice();
 //							여기서 할인된 가격 물어보고 진짜 예매할건지 확인 필요
 //								if(생일자 && 남은 좌석수 <= 3 * 한줄 좌석수 ) {
-							System.out.println("생일을 축하드립니다!\n생일 할인과 앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//							System.out.println("생일을 축하드립니다!\n생일 할인과 앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
 //								} else if (생일자) {
-							System.out.println("생일을 축하드립니다!\n생일 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//							System.out.println("생일을 축하드립니다!\n생일 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
 //							} else if(남은 좌석수 <= 3 * 한줄 좌석수) {
-							System.out.println("앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//							System.out.println("앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
 							
 //							} else {
-							System.out.println("가격은 " + ticketPrice * (1) + "입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+							System.out.print("가격은 " + ticketPrice * (1) + "입니다."+"\n예매 하시겠습니까?(Y/N) : ");
 //							}
 							String yn = sc.nextLine().toUpperCase();
+							
 							if("Y".equals(yn)) {
+//							시간표로 예매 진행, Transaction 사용
+								
+								int ticketResResult = co.ticketRes(timetableList.get(timeNum - 1), resSeatNum);
+								if (ticketResResult <= 0) {
+									System.out.println("예매에 실패했습니다.");
+								} else {
+									System.out.println("예매가 완료되었습니다.");
+								}
 								
 							}else {
 								System.out.println("예매를 취소합니다.");
 								return;
-							}
-//							시간표로 예매 진행, Transaction 사용
-							int ticketResResult = co.ticketRes(timetableList.get(timeNum - 1), resSeatNum);
-							if (ticketResResult <= 0) {
-								System.out.println("예매에 실패했습니다.");
-							} else {
-								System.out.println("예매가 완료되었습니다.");
 							}
 							return;
 						}
@@ -184,8 +188,23 @@ public class Menuksk {
 //			기능 추가
 //			현재 시간 이전/이후로 나눠서 목록 조회
 //			reservation 테이블에 컬럼 하나 만들어서 default로 시간값 넣어주기 필요
+			Timetableksk timetableByTimeNo = null;
+			System.out.println("=== 상영 시간이 지난 영화 내역입니다. ===");
 			for (int i = 1; i <= searchResList.size(); i++) {
-				System.out.println("[" + i + "번] " + searchResList.get(i - 1));
+				if(ChronoUnit.SECONDS.between(searchResList.get(i-1).getrDate(), ldtNow)>0) {
+					timetableByTimeNo = co.searchTimetableListByTimeNo(searchResList.get(i-1).getTimeNo());
+					System.out.println("["+i+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
+				}
+					
+				}
+			System.out.println("=== 상영 시작 예정인 영화입니다. ===");
+			int temp = 1;
+			for (int i = 1; i <= searchResList.size(); i++) {
+				if(ChronoUnit.SECONDS.between(searchResList.get(i-1).getrDate(), ldtNow)<=0){
+					timetableByTimeNo = co.searchTimetableListByTimeNo(searchResList.get(i-1).getTimeNo());
+					System.out.println("["+temp+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
+					temp++;
+				}
 			}
 		}
 		return searchResList;
