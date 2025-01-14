@@ -14,7 +14,18 @@ public class TimeTable {
 	
 	public TimeTable() {}
 	
-
+	public TimeTable(LocalDateTime timeStart,LocalDateTime timeEnd) {
+		this.timeStart = timeStart;
+		this.timeEnd = timeEnd;
+	}
+	
+	
+	public TimeTable(int timeNo,LocalDateTime timeStart,LocalDateTime timeEnd) {
+		this.timeNo = timeNo;
+		this.timeStart = timeStart;
+		this.timeEnd = timeEnd;
+	}
+		
 	
 	public TimeTable(String mTitle , String tName , LocalDateTime timeStart , LocalDateTime timeEnd) {
 		this.mTitle = mTitle;

@@ -16,16 +16,16 @@ import cinema_project.model.vo.TimeTable;
 public class Service {
 	private Dao dao = new Dao();
 	
-	public int createTimetable(int no, String name, String start, String convertEndtime) {
+	public int createTimetable(String mname,String tname,String start, String end) {
 		Connection conn = getConnection();
-		int result = dao.createTimetable(no,name,start,convertEndtime,conn);
+		int result = dao.createTimetable(mname,tname,start,end,conn);
 		close(conn);
 		return result;
 	}
 	
-	public int  editTimetable(int movieNo,String name,String theater,String start,String end) {
+	public int  editTimetable(int movieNo,String start,String end) {
 		Connection conn = getConnection();
-		int result = dao.editTimetable(movieNo,name,theater,start,end,conn);
+		int result = dao.editTimetable(movieNo,start,end,conn);
 		close(conn);
 		return result;
 	}

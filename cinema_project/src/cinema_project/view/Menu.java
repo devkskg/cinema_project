@@ -31,7 +31,9 @@ public class Menu {
 			System.out.println("10. 로그아웃");
 			
 			System.out.print("선택 : ");
+			
 			int menu = sc.nextInt();
+			sc.nextLine();
 			//1~6 정현 담당
 			switch(menu) {
 			case 1 : break;
@@ -57,18 +59,21 @@ public class Menu {
 		System.out.println("===상영관 정보===");
 		printList3(list1);
 		System.out.println("======영화 시간표 추가======");
-		System.out.print("영화 번호 : ");
-		int no = sc.nextInt();
 		System.out.print("영화 제목 : ");
-		sc.nextLine();
-		String name = sc.nextLine();
+
+		String mname = sc.nextLine();
+		System.out.print("상영관 이름 : ");
+		String tname = sc.nextLine();
 		System.out.print("시작시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String start = sc.nextLine();
-		System.out.print("끝나는 시간 (런타임<분>) : ");
-		String convertEndtime = start + list.get(no).getmRuntime(); 
+		System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : ");
+		String end = sc.nextLine();
 		
 		
-		int result = controller.createTimetable(no,name,start,convertEndtime);
+//		String convertEndtime = start + list.get(no).getmRuntime(); 
+		
+		
+		int result = controller.createTimetable(mname,tname,start,end);
 		if(result > 0 ) {
 			System.out.println("성공적으로 추가하였습니다!");
 		}else {
@@ -87,15 +92,12 @@ public class Menu {
 		int movieNo = sc.nextInt();
 		sc.nextLine();
 		
-		System.out.print("수정 영화 이름 : ");
-		String name = sc.nextLine();
-		System.out.print("수정 상영관 : ");
-		String theater = sc.nextLine();
-		System.out.print("수정 시작시간 : ");
+		
+		System.out.print("수정 시작시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String start = sc.nextLine();
-		System.out.print("수정 종료시간 : ");
+		System.out.print("수정 종료시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String end = sc.nextLine();
-		int result = controller.editTimetable(movieNo,name,theater,start,end);
+		int result = controller.editTimetable(movieNo,start,end);
 		if(result > 0 ) {
 			System.out.println("୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
 			System.out.println("성공적으로 수정!");

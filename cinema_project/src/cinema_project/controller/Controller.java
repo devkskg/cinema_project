@@ -16,15 +16,15 @@ import cinema_project.model.vo.TimeTable;
 public class Controller {
 	private Service service = new Service();
 
-	public int createTimetable(int no, String name, String start, String convertEndtime) {
-		int result = service.createTimetable(no,name,start,convertEndtime);
+	public int createTimetable(String mname,String tname,String start, String end) {
+		int result = service.createTimetable(mname,tname,start,end);
 		return result;	
 	}
 	
 	
 	
-	public int editTimetable(int movieNo,String name,String theater,String start,String end) {
-		int result = service.editTimetable(movieNo,name,theater,start,end);
+	public int editTimetable(int movieNo,String start,String end) {
+		int result = service.editTimetable(movieNo,start,end);
 		return result;
 	}
 	

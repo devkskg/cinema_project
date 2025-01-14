@@ -16,17 +16,20 @@ import cinema_project.model.vo.TimeTable;
 public class Dao {
 	
 	
-	public int createTimetable(int no, String name, String start, String convertEndtime , Connection conn) {
+	public int createTimetable(String mname, String tname, String start, String end , Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
-			String sql = "INSERT INTO timetable(m_title, t_name, time_start ,time_end) "
-						+ "VALUES('?', '?', '?', DATE_ADD(STR_TO_DATE(time_start, '%Y-%m-%d %T'), INTERVAL ? minute))";
+			String sql = "INSERT INTO timetable(m_title ,t_name ,time_start ,time_end) "
+						+ "VALUES(?,?,STR_TO_DATE(?,'%Y-%m-%d %T') ,STR_TO_DATE(?,'%Y-%m-%d %T'))";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, no);
-			pstmt.setString(2, name);
+//			pstmt.setInt(1, no);
+//			pstmt.setString(2, name);
+//			pstmt.setString(1, name);
+			pstmt.setString(1, mname);
+			pstmt.setString(2, tname);
 			pstmt.setString(3, start);
-			pstmt.setString(4, convertEndtime);
+			pstmt.setString(4, end);
 			result = pstmt.executeUpdate();		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -36,18 +39,16 @@ public class Dao {
 		return result;
 	}
 	
-	public int editTimetable(int movieNo,String name,String theater,String start,String end,Connection conn) {
+	public int editTimetable(int movieNo,String start,String end,Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
-			String sql = "UPDATE timetable SET m_title = ? ,t_name = ? ,time_start = STR_TO_DATE(?,'%Y-%m-%d %T') ,time_end= STR_TO_DATE(?,'%Y-%m-%d %T') WHERE time_no = ? ";
+			String sql = "UPDATE timetable SET time_start = STR_TO_DATE(?,'%Y-%m-%d %T') ,time_end= STR_TO_DATE(?,'%Y-%m-%d %T') WHERE time_no = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, theater);
-			pstmt.setString(3, start);
-			pstmt.setString(4, end);
-			pstmt.setInt(5, movieNo);
-			
+			pstmt.setString(1, start);
+			pstmt.setString(2, end);
+			pstmt.setInt(3, movieNo);
+			result=pstmt.executeUpdate();
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
