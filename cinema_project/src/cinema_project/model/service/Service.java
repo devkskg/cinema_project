@@ -23,9 +23,9 @@ public class Service {
 		return result;
 	}
 	
-	public int  editTimetable(int movieNo,String start,String end) {
+	public int  editTimetable(int movieNo,String start, LocalDateTime starttime) {
 		Connection conn = getConnection();
-		int result = dao.editTimetable(movieNo,start,end,conn);
+		int result = dao.editTimetable(movieNo,start,starttime,conn);
 		close(conn);
 		return result;
 	}

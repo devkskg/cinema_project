@@ -23,8 +23,8 @@ public class Controller {
 	
 	
 	
-	public int editTimetable(int movieNo,String start,String end) {
-		int result = service.editTimetable(movieNo,start,end);
+	public int editTimetable(int movieNo,String start, LocalDateTime starttime) {
+		int result = service.editTimetable(movieNo,start,starttime);
 		return result;
 	}
 	

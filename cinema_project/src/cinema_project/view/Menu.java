@@ -99,12 +99,14 @@ public class Menu {
 		
 		System.out.print("수정 시작시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String start = sc.nextLine();
-		System.out.print("수정 종료시간 (yyyy-MM-dd HH:mm:ss) : ");
-		String end = sc.nextLine();
-		int result = controller.editTimetable(movieNo,start,end);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime starttime = LocalDateTime.parse(start,formatter);
+		LocalDateTime endtime = starttime.plusMinutes(viewMovie().get(movieNo-1).getmRuntime());
+		System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : " + endtime);
+		int result = controller.editTimetable(movieNo,start,starttime);
 		if(result > 0 ) {
-			System.out.println("୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
-			System.out.println("성공적으로 수정!");
+			System.out.print("୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
+			System.out.print("성공적으로 수정!");
 		}else {
 			System.out.println("수정 실패 ㅠㅠ");
 		}

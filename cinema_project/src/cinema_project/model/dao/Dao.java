@@ -39,15 +39,14 @@ public class Dao {
 		return result;
 	}
 	
-	public int editTimetable(int movieNo,String start,String end,Connection conn) {
+	public int editTimetable(int movieNo,String start, LocalDateTime starttime,Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
-			String sql = "UPDATE timetable SET time_start = STR_TO_DATE(?,'%Y-%m-%d %T') ,time_end= STR_TO_DATE(?,'%Y-%m-%d %T') WHERE time_no = ? ";
+			String sql = "UPDATE timetable SET time_start = STR_TO_DATE(?,'%Y-%m-%d %T') WHERE time_no = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, start);
-			pstmt.setString(2, end);
-			pstmt.setInt(3, movieNo);
+			pstmt.setTimestamp(1, Timestamp.valueOf(start));
+			pstmt.setInt(2, movieNo);
 			result=pstmt.executeUpdate();
 		}catch(Exception e){
 			e.printStackTrace();
