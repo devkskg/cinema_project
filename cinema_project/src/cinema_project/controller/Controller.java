@@ -4,6 +4,7 @@ package cinema_project.controller;
 
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import cinema_project.model.service.Service;
@@ -18,6 +19,13 @@ public class Controller {
 	public int createTimetable(int no, String name, String start, String convertEndtime) {
 		int result = service.createTimetable(no,name,start,convertEndtime);
 		return result;	
+	}
+	
+	
+	
+	public int editTimetable(int movieNo,String name,String theater,String start,String end) {
+		int result = service.editTimetable(movieNo,name,theater,start,end);
+		return result;
 	}
 	
 	

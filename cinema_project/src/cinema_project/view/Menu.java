@@ -1,8 +1,9 @@
 package cinema_project.view;
 
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import cinema_project.controller.Controller;
@@ -16,6 +17,7 @@ public class Menu {
 	private Controller controller = new Controller();
 	public void managerMenu() {
 		while(true) {
+			System.out.println(" ୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
 			System.out.println("=====관리자 메뉴에 오신 걸 환영합니다=====");
 			System.out.println("1. 영화 추가");
 			System.out.println("2. 영화 정보 수정");
@@ -39,7 +41,7 @@ public class Menu {
 			case 5 : break;
 			case 6 : break;
 			case 7 : createTimetable();break;
-//			case 8 : editTimetable(); break;
+			case 8 : editTimetable(); break;
 			case 9 : deleteTimetable(); break;
 			case 10 : System.out.println("***로그아웃 완료***"); return;
 			default : System.out.println("잘못된 번호를 입력하였습니다 다시 입력해주세요!!"); break;
@@ -75,6 +77,34 @@ public class Menu {
 		
 		
 	}
+	
+	public void editTimetable() {
+		List<TimeTable> list = controller.viewTimeTable();
+		System.out.println("=====영화 시간표 정보=====");
+		printList(list);
+		System.out.println("어떤 영화의 정보를 수정하시겠습니가");
+		System.out.print("번호 : ");
+		int movieNo = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.print("수정 영화 이름 : ");
+		String name = sc.nextLine();
+		System.out.print("수정 상영관 : ");
+		String theater = sc.nextLine();
+		System.out.print("수정 시작시간 : ");
+		String start = sc.nextLine();
+		System.out.print("수정 종료시간 : ");
+		String end = sc.nextLine();
+		int result = controller.editTimetable(movieNo,name,theater,start,end);
+		if(result > 0 ) {
+			System.out.println("୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
+			System.out.println("성공적으로 수정!");
+		}else {
+			System.out.println("수정 실패 ㅠㅠ");
+		}
+		
+		}
+	
 	
 		
 	

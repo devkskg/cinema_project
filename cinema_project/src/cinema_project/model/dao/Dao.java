@@ -4,6 +4,7 @@ import static cinema_project.common.TimeTableTemPlate.close;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,26 @@ public class Dao {
 			pstmt.setString(3, start);
 			pstmt.setString(4, convertEndtime);
 			result = pstmt.executeUpdate();		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int editTimetable(int movieNo,String name,String theater,String start,String end,Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			String sql = "UPDATE timetable SET m_title = ? ,t_name = ? ,time_start = STR_TO_DATE(?,'%Y-%m-%d %T') ,time_end= STR_TO_DATE(?,'%Y-%m-%d %T') WHERE time_no = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, theater);
+			pstmt.setString(3, start);
+			pstmt.setString(4, end);
+			pstmt.setInt(5, movieNo);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {

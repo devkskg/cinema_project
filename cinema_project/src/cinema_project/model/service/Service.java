@@ -4,6 +4,7 @@ import static cinema_project.common.TimeTableTemPlate.close;
 import static cinema_project.common.TimeTableTemPlate.getConnection;
 
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import cinema_project.model.dao.Dao;
@@ -18,6 +19,13 @@ public class Service {
 	public int createTimetable(int no, String name, String start, String convertEndtime) {
 		Connection conn = getConnection();
 		int result = dao.createTimetable(no,name,start,convertEndtime,conn);
+		close(conn);
+		return result;
+	}
+	
+	public int  editTimetable(int movieNo,String name,String theater,String start,String end) {
+		Connection conn = getConnection();
+		int result = dao.editTimetable(movieNo,name,theater,start,end,conn);
 		close(conn);
 		return result;
 	}
