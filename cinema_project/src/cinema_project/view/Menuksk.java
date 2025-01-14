@@ -83,23 +83,25 @@ public class Menuksk {
 
 		System.out.println("*** 티켓 예매 ***");
 		int resSeatNum = 0;
+		int resMovieNum = 0;
+		while (true) {
+			System.out.print("예매하실 영화 번호를 선택해주세요. : ");
+			resMovieNum = sc.nextInt();
+			sc.nextLine();
+
+			if (resMovieNum <= 0 || movieList.size() < resMovieNum) {
+				System.out.println("잘못 입력하셨습니다.");
+			} else {
+				break;
+			}
+		
+
+		}
 		while (true) {
 			System.out.print("예매하실 \"좌석 수\"를 입력해주세요. : ");
 			resSeatNum = sc.nextInt();
 			if (resSeatNum <= 0) {
 				System.out.println("잘못된 인원입니다.");
-			} else {
-				break;
-			}
-
-		}
-		while (true) {
-			System.out.print("예매하실 영화 번호를 선택해주세요. : ");
-			int resMovieNum = sc.nextInt();
-			sc.nextLine();
-
-			if (resMovieNum <= 0 || movieList.size() < resMovieNum) {
-				System.out.println("잘못 입력하셨습니다.");
 			} else {
 //				선택한 영화의 영화 시간표 조회
 //				연령제한 -- 처음부터 사용자의 나이 정보를 인자로 넣어서 timetableList 가져오자.
@@ -123,12 +125,30 @@ public class Menuksk {
 							System.out.println("예매하실 시간을 잘못 입력하셨습니다.");
 						} else {
 
+							int ticketPrice = movieList.get(resMovieNum-1).getmPrice();
+//							여기서 할인된 가격 물어보고 진짜 예매할건지 확인 필요
+//								if(생일자 && 남은 좌석수 <= 3 * 한줄 좌석수 ) {
+							System.out.println("생일을 축하드립니다!\n생일 할인과 앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//								} else if (생일자) {
+							System.out.println("생일을 축하드립니다!\n생일 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//							} else if(남은 좌석수 <= 3 * 한줄 좌석수) {
+							System.out.println("앞좌석 할인을 적용했습니다.\n할인 가격은 " + (int)(ticketPrice * (1-0.1)) + "원 입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+							
+//							} else {
+							System.out.println("가격은 " + ticketPrice * (1) + "입니다."+"\n예매 하시겠습니까?(Y/N) : ");
+//							}
+							String yn = sc.nextLine().toUpperCase();
+							if("Y".equals(yn)) {
+								
+							}else {
+								System.out.println("예매를 취소합니다.");
+								return;
+							}
 //							시간표로 예매 진행, Transaction 사용
 							int ticketResResult = co.ticketRes(timetableList.get(timeNum - 1), resSeatNum);
 							if (ticketResResult <= 0) {
 								System.out.println("예매에 실패했습니다.");
 							} else {
-//							여기서 할인된 가격 물어보고 진짜 예매할건지 확인 필요
 								System.out.println("예매가 완료되었습니다.");
 							}
 							return;
