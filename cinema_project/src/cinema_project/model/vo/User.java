@@ -1,61 +1,96 @@
 package cinema_project.model.vo;
 
 public class User {
-	private int uNo;
-    private String uId;
-    private String uPw;
-    private String uName;
-    private String uSsn;
-    private String uPhone;
-    private String uManager;
+	 private int userNo;
+	    private String userId;
+	    private String userPw;
+	    private String userName;
+	    private String userSsn;
+	    private String userPhone;
+	    private String userManager;
 
-    public User(int uNo, String uId, String uPw, String uName, String uSsn, String uPhone, String uManager) {
-        this.uNo = uNo;
-        this.uId = uId;
-        this.uPw = uPw;
-        this.uName = uName;
-        this.uSsn = uSsn;
-        this.uPhone = uPhone;
-        this.uManager = uManager;
-    }
+	    
+	    public User(int userNo, String userId, String userPw, String userName, String userSsn, String userPhone,
+				String userManager) {
+			super();
+			this.userNo = userNo;
+			this.userId = userId;
+			this.userPw = userPw;
+			this.userName = userName;
+			this.userSsn = userSsn;
+			this.userPhone = userPhone;
+			this.userManager = userManager;
+		}
 
-    public int getuNo() {
-        return uNo;
-    }
+		public User() {
+			
+		}
 
-    public String getuId() {
-        return uId;
-    }
+		public User(String userName, String userSsn, String userPhone) {
+			super();
+			this.userName = userName;
+			this.userSsn = userSsn;
+			this.userPhone = userPhone;
+		}
 
-    public String getuPw() {
-        return uPw;
-    }
+		public int getUserNo() {
+	        return userNo;
+	    }
 
-    public String getuName() {
-        return uName;
-    }
+	    public void setUserNo(int userNo) {
+	        this.userNo = userNo;
+	    }
 
-    public String getuSsn() {
-        return uSsn;
-    }
+	    public String getUserId() {
+	        return userId;
+	    }
 
-    public String getuPhone() {
-        return uPhone;
-    }
+	    public void setUserId(String userId) {
+	        this.userId = userId;
+	    }
 
-    public String getuManager() {
-        return uManager;
-    }
+	    public String getUserPw() {
+	        return userPw;
+	    }
 
-    @Override
-    public String toString() {
-        return 
-               "번호 : " + uNo +
-               ", 아이디 : " + uId + '\'' +
-               ", 비밀번호 : " + uPw + '\'' +
-               ", 이름 : " + uName + '\'' +
-               ", 주민등록번호 : " + uSsn + '\'' +
-               ", 전화번호 : " + uPhone + '\'' +
-               ", 관리자 : " + uManager;
-    }
-}
+	    public void setUserPw(String userPw) {
+	        this.userPw = userPw;
+	    }
+
+	    public String getUserName() {
+	        return userName;
+	    }
+
+	    public void setUserName(String userName) {
+	        this.userName = userName;
+	    }
+
+	    public String getUserSsn() {
+	        return userSsn;
+	    }
+
+	    public void setUserSsn(String userSsn) {
+	        this.userSsn = userSsn;
+	    }
+
+	    public String getUserPhone() {
+	        return userPhone;
+	    }
+
+	    public void setUserPhone(String userPhone) {
+	        this.userPhone = userPhone;
+	    }
+
+	    public String getUserManager() {
+	        return userManager;
+	    }
+
+	    public void setUserManager(String userManager) {
+	        this.userManager = userManager;
+	    }
+		@Override
+		public String toString() {
+			return "아이디:" + userId + ", 비밀번호:" + userPw + ", 이름:" + userName
+					+ ", 주민번호:" + userSsn + ", 전화번호:" + userPhone;
+		}
+	}
