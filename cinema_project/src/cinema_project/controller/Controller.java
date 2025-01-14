@@ -16,8 +16,8 @@ import cinema_project.model.vo.TimeTable;
 public class Controller {
 	private Service service = new Service();
 
-	public int createTimetable(String mname,String tname,String start, String end) {
-		int result = service.createTimetable(mname,tname,start,end);
+	public int createTimetable(String createmt,String tname,LocalDateTime starttime) {
+		int result = service.createTimetable(createmt,tname,starttime);
 		return result;	
 	}
 	

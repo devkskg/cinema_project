@@ -4,6 +4,7 @@ import static cinema_project.common.TimeTableTemPlate.close;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +17,19 @@ import cinema_project.model.vo.TimeTable;
 public class Dao {
 	
 	
-	public int createTimetable(String mname, String tname, String start, String end , Connection conn) {
+	public int createTimetable(String createmt,String tname,LocalDateTime start, Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
-			String sql = "INSERT INTO timetable(m_title ,t_name ,time_start ,time_end) "
-						+ "VALUES(?,?,STR_TO_DATE(?,'%Y-%m-%d %T') ,STR_TO_DATE(?,'%Y-%m-%d %T'))";
+			String sql = "INSERT INTO timetable(m_title ,t_name ,time_start) "
+						+ "VALUES(?,?,STR_TO_DATE(?,'%Y-%m-%d %T'))";
 			pstmt = conn.prepareStatement(sql);
 //			pstmt.setInt(1, no);
 //			pstmt.setString(2, name);
 //			pstmt.setString(1, name);
-			pstmt.setString(1, mname);
+			pstmt.setString(1, createmt);
 			pstmt.setString(2, tname);
-			pstmt.setString(3, start);
-			pstmt.setString(4, end);
+			pstmt.setTimestamp(3, Timestamp.valueOf(start));
 			result = pstmt.executeUpdate();		
 		}catch(Exception e){
 			e.printStackTrace();

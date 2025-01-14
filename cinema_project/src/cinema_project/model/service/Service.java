@@ -16,9 +16,9 @@ import cinema_project.model.vo.TimeTable;
 public class Service {
 	private Dao dao = new Dao();
 	
-	public int createTimetable(String mname,String tname,String start, String end) {
+	public int createTimetable(String createmt,String tname,LocalDateTime starttime) {
 		Connection conn = getConnection();
-		int result = dao.createTimetable(mname,tname,start,end,conn);
+		int result = dao.createTimetable(createmt,tname,starttime,conn);
 		close(conn);
 		return result;
 	}

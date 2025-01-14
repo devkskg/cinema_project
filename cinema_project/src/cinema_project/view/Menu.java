@@ -1,9 +1,9 @@
 package cinema_project.view;
 
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import cinema_project.controller.Controller;
@@ -55,25 +55,29 @@ public class Menu {
 		List<Movie> list = controller.viewMovie();
 		System.out.println("===영화 정보===");
 		printList2(list);
+		
+		System.out.println("======영화 시간표 추가======");
+		System.out.print("영화 번호 : ");
+		int no = sc.nextInt();
+		sc.nextLine();
 		List<Theater> list1 = controller.viewTheater();
 		System.out.println("===상영관 정보===");
 		printList3(list1);
-		System.out.println("======영화 시간표 추가======");
-		System.out.print("영화 제목 : ");
-
-		String mname = sc.nextLine();
+		
 		System.out.print("상영관 이름 : ");
 		String tname = sc.nextLine();
 		System.out.print("시작시간 (yyyy-MM-dd HH:mm:ss) : ");
 		String start = sc.nextLine();
-		System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : ");
-		String end = sc.nextLine();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime starttime = LocalDateTime.parse(start,formatter);
+		LocalDateTime endtime = starttime.plusMinutes(list.get(no-1).getmRuntime());
+		System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : " + endtime);
+		String createmt = list.get(no-1).getmTitle();
 		
 		
 //		String convertEndtime = start + list.get(no).getmRuntime(); 
 		
-		
-		int result = controller.createTimetable(mname,tname,start,end);
+		int result = controller.createTimetable(createmt,tname,starttime);
 		if(result > 0 ) {
 			System.out.println("성공적으로 추가하였습니다!");
 		}else {
