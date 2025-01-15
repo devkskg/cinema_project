@@ -311,4 +311,4 @@ public class MainMenu {
 				System.out.println("존재하지 않는 상영관 번호입니다.");
 			}
 		}
-	} 
+	} /* 테스트 주석*/
