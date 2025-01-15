@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import cinema_project.controller.Controller;
-import cinema_project.model.vo.Vo;
+import cinema_project.model.vo.MovieVo;
+import cinema_project.model.vo.TheaterVo;
+
 
 
 public class MainMenu {
@@ -46,185 +48,267 @@ public class MainMenu {
 		}
 	}
 	
-	public List<Vo> searchMovie() {
+	// 영화 목록 
+    public void showAllMovies() {
+        List<MovieVo> movies = mc.getAllMovies();
+        if (movies.isEmpty()) {
+            System.out.println("등록된 영화가 없습니다.");
+        } else {
+            System.out.println("=== 영화 목록 ===");
+            for (MovieVo movie : movies) {
+                System.out.println("영화 번호: " + movie.getMovieNumber() + ", 제목: " + movie.getMovieName() +
+                        ", 러닝타임: " + movie.getMovieRuntime() + "분, 가격: " + movie.getMoviePrice() + ", 상영등급: " + movie.getMovieRating());
+            }
+        }
+    }
+	
+    // 상영관 목록 
+    public void showAllTheaters() {
+        List<TheaterVo> theaters = mc.getAllTheaters();
+        if (theaters.isEmpty()) {
+            System.out.println("등록된 상영관이 없습니다.");
+        } else {
+            System.out.println("=== 상영관 목록 ===");
+            for (TheaterVo theater : theaters) {
+                System.out.println("상영관 번호: " + theater.getTheaterNumber() + ", 이름: " + theater.getTheaterName() +
+                        ", 좌석 수: " + theater.getTheaterSeat() + ", 한 줄 좌석 수: " + theater.getTheaterLineseat());
+            }
+        }
+    }
+	
+    public List<MovieVo> searchMovie() {
 	    return controller.searchMovie();
 	}
 	
 	private Controller controller = new Controller();
-	public void addMovie() {
-		int m_same = 0;
-		System.out.print("중복 확인하실 영화 제목을 입력해주세요:");
-		String m_title = sc.nextLine();
-		
-		List<Vo> list = searchMovie();
-		
-		for(Vo v : list) {
-			if(v.getMovieName().equals(m_title)) {
-				m_same++;
-			}
+		public void addMovie() {
+		    showAllMovies();
+		    System.out.println("=== 영화 추가 ===");
+
+		    String m_name;
+		    System.out.print("영화 제목을 입력하세요: ");
+		    m_name = sc.nextLine();
+
+		    List<MovieVo> movieList = controller.searchMovie();
+		    for (MovieVo movie : movieList) {
+		        if (movie.getMovieName().equals(m_name)) {
+		            System.out.println("영화 제목이 중복되어 추가 불가능합니다.");
+		            return;
+		        }
+		    }
+		    System.out.print("러닝타임(분) : ");
+		    int m_runtime = sc.nextInt();
+		    System.out.print("영화 가격 : ");
+		    int m_price = sc.nextInt();
+		    System.out.print("상영등급 : ");
+		    int m_rating = sc.nextInt();
+		    sc.nextLine(); 
+		    MovieVo movie = new MovieVo(m_name, m_runtime, m_price, m_rating);
+		    
+		    int result = controller.addMovie(movie);
+		    if (result > 0) {
+		        System.out.println("영화가 추가되었습니다.");
+		    } else {
+		        System.out.println("영화 추가에 실패했습니다.");
+		    }
 		}
-		if(m_same > 0) {
-			System.out.println("이미 존재하는 영화 제목입니다. 다시 입력해주세요.");
-			addMovie();
-		}else {
-			System.out.println("===영화 추가===");		
-			System.out.print("영화 제목:");
-			String m_name = sc.nextLine();
-			System.out.print("러닝 타임:");
-			int m_running = sc.nextInt();
-			sc.nextLine();
-			System.out.print("가격:");
-			int m_price = sc.nextInt();
-			System.out.print("상영등급:");
-			int m_rating = sc.nextInt();
-			int result = mc.addMovie(m_name,m_running,m_price,m_rating);
-			if(result > 0) {
-				System.out.println("성공");
-			}else {
-				System.out.println("실패");
-			}
-			
-		}
-	}
 	
-	
+	//영화 수정
 	public void updateMovie(){
-		System.out.println("===영화 정보 수정===");
-		System.out.println("수정할 영화 번호를 입력하세요: ");
-		System.out.print("영화 번호 : ");
-		int m_number = sc.nextInt();
-		sc.nextLine();
-		
-		System.out.print("새 영화 제목 : ");
-		String m_name = sc.nextLine();
-		System.out.print("새 러닝 타임 : ");
-		int m_running = sc.nextInt();	
-		System.out.print("새 가격 : ");
-		int m_price = sc.nextInt();
-		System.out.print("새 상영 등급 : ");
-		int m_rating = sc.nextInt();
-	
-		int result = mc.updateMovie(m_number,m_name,m_running,m_price,m_rating);
-		if(result > 0) {
-			System.out.println("영화 정보가 성공적으로 수정되었습니다.");
-		}else {
-			System.out.println("영화 정보 수정에 실패했습니다.");
-		}
+		 showAllMovies();
+		    System.out.println("===영화 정보 수정===");
+
+		    int m_number = -1;
+		    boolean valid = false;
+
+		    while (!valid) {
+		        System.out.print("수정할 영화 번호를 입력하세요: ");
+		        m_number = sc.nextInt();
+		        sc.nextLine();  
+		        
+		        List<MovieVo> movieList = mc.getAllMovies();
+		        for (MovieVo movie : movieList) {
+		            if (movie.getMovieNumber() == m_number) {
+		                valid = true; 
+		                break;
+		            }
+		        }
+		        if (!valid) {
+		            System.out.println("잘못된 영화 번호입니다. 다시 입력해주세요.");
+		        }
+		    }
+
+		    System.out.print("새 영화 제목 : ");
+		    String m_name = sc.nextLine();
+		    System.out.print("새 러닝 타임 : ");
+		    int m_running = sc.nextInt();    
+		    System.out.print("새 가격 : ");
+		    int m_price = sc.nextInt();
+		    System.out.print("새 상영 등급 : ");
+		    int m_rating = sc.nextInt();
+
+		    int result = mc.updateMovie(m_number, m_name, m_running, m_price, m_rating);
+		    if(result > 0) {
+		        System.out.println("영화 정보가 성공적으로 수정되었습니다.");
+		    } else {
+		        System.out.println("영화 정보 수정에 실패했습니다.");
+		    }
 	}
-	
+	//영화 삭제
 	public void deletMovie(){
+		showAllMovies();
 		System.out.println("===영화 삭제===");
 		System.out.print("영화 번호 : ");
 		int m_number = sc.nextInt();
 		sc.nextLine();
 		
-		int result = controller.deletMovie(m_number);
-		
-		if(result > 0) {
-			System.out.println("영화가 성공적으로 삭제되었습니다.");
-		} else {
-			System.out.println("영화 삭제에 실패했습니다.");
-		}
+		List<MovieVo> movieList = controller.searchMovie();
+		MovieVo movieToDelete = null;
+	    
+	    for (MovieVo movie : movieList) {
+	        if (movie.getMovieNumber() == m_number) {
+	            movieToDelete = movie;
+	            break; 
+	        }
+	    }
+	    
+	    if (movieToDelete != null) {
+	        String yn;
+	        while (true) {
+	            System.out.println("정말 삭제하시겠습니까? (Y/N)");
+	            yn = sc.nextLine().toUpperCase();
+
+	            if (yn.equals("Y")) {
+	                int result = controller.deletMovie(m_number);
+	                if(result > 0) {
+	                    System.out.println("영화가 삭제되었습니다.");
+	                } else {
+	                    System.out.println("삭제 실패.");
+	                }
+	                break;
+	            } else if (yn.equals("N")) {
+	                System.out.println("삭제를 취소하였습니다.");
+	                break;
+	            } else {
+	                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+	            }
+	        }
+	    } else {
+	        System.out.println("존재하지 않는 영화 번호입니다.");
+	    }
 	}
 	
-	public List<Vo> searchTheater() {
+	public List<TheaterVo> searchTheater() {
 	    return controller.searchTheater();
 	}
+	//상영관 추가
 	public void addTheater() {
-		int t_same = 0;
-		System.out.print("중복 확인하실 상영관 제목을 입력해주세요:");
-		String t_title = sc.nextLine();
-		
-		List<Vo> list = searchTheater();
-		
-		for(Vo v : list) {
-			if(v.getTheaterName().equals(t_title)) {
-				t_same++;
-			}
-		}
-		if(t_same > 0) {
-			System.out.println("이미 존재하는 상영관 이름입니다. 다시 입력해주세요.");
-			addTheater();
-		}else {
-			System.out.println("===상영관 추가===");
-			System.out.println("추가하실 상영관 이름, 좌석, 한 줄의 좌석 수를 입력해 주세요.");
-			System.out.print("상영관 이름 : ");
-			String t_name = sc.nextLine();
-			System.out.print("좌석 수 : ");
-			int t_seat = sc.nextInt();
-			sc.nextLine();
-			System.out.print("한 줄의 좌석 수 : ");
-			int t_lineseat = sc.nextInt();
-			
-			int result = mc.addTheater(t_name,t_seat,t_lineseat);
-			if(result > 0) {
-				System.out.println("상영관이 성공적으로 추가되었습니다.");
-			}else {
-				System.out.println("상영관 추가에 실패했습니다.");
-			}
-		
-		}
-	}
-	
-	
-	
-//	public void addtheater(){
-//		System.out.println("===상영관 추가===");
-//		System.out.println("추가하실 상영관 이름, 좌석, 한 줄의 좌석 수를 입력해 주세요.");
-//		System.out.print("상영관 이름 : ");
-//		String t_name = sc.nextLine();
-//		System.out.print("좌석 수 : ");
-//		int t_seat = sc.nextInt();
-//		sc.nextLine();
-//		System.out.print("한 줄의 좌석 수 : ");
-//		int t_lineseat = sc.nextInt();
-//		
-//		int result = mc.addtheater(t_name,t_seat,t_lineseat);
-//		if(result > 0) {
-//			System.out.println("상영관이 성공적으로 추가되었습니다.");
-//		}else {
-//			System.out.println("상영관 추가에 실패했습니다.");
-//		}
-//		
-//	}
-	
-	public void updateTheater() {
-		System.out.println("===상영관 정보 수정===");
-		System.out.println("수정할 상영관 번호를 입력하세요: ");
-		System.out.print("상영관 번호 : ");
-		int t_number = sc.nextInt();
-		sc.nextLine();
-		
-		System.out.print("새 상영관 제목 : ");
-		String t_name = sc.nextLine();
-		System.out.print("새 좌석 : ");
-		int t_seat = sc.nextInt();	
-		System.out.print("새 한 줄 좌석 : ");
-		int t_lineseat = sc.nextInt();
+	    showAllTheaters();
+	    System.out.println("=== 상영관 추가 ===");
 
-		int result = mc.updatetheater(t_number,t_name,t_seat,t_lineseat);
-		if(result > 0) {
-			System.out.println("상영관 정보가 성공적으로 수정되었습니다.");
-		}else {
-			System.out.println("상영관 정보 수정에 실패했습니다.");
-		}
-		
+	    String t_name;
+	    System.out.print("상영관 이름을 입력하세요: ");
+	    t_name = sc.nextLine();
+
+	    List<TheaterVo> theaterList = controller.searchTheater();
+	    for (TheaterVo theater : theaterList) {
+	        if (theater.getTheaterName().equals(t_name)) {
+	            System.out.println("상영관 이름이 중복되어 추가 불가능합니다.");
+	            return; 
+	        }
+	    }
+	    System.out.print("좌석 수 : ");
+	    int t_seat = sc.nextInt();
+	    System.out.print("한 줄의 좌석 수 : ");
+	    int t_lineseat = sc.nextInt();
+	    sc.nextLine();
+
+	    TheaterVo theater = new TheaterVo(t_name, t_seat, t_lineseat);
+
+	    int result = controller.addTheater(theater);
+	    if (result > 0) {
+	        System.out.println("상영관이 성공적으로 추가되었습니다.");
+	    } else {
+	        System.out.println("상영관 추가에 실패했습니다.");
+	    }
+	}
+	//상영관 업데이트
+	public void updateTheater() {
+		showAllTheaters();
+	    System.out.println("===상영관 정보 수정===");
+
+	    int t_number = -1;
+	    boolean valid = false;
+
+	   
+	    while (!valid) {
+	        System.out.print("수정할 상영관 번호를 입력하세요: ");
+	        t_number = sc.nextInt();
+	        sc.nextLine();  
+
+	        
+	        List<TheaterVo> theaterList = mc.getAllTheaters();
+	        for (TheaterVo theater : theaterList) {
+	            if (theater.getTheaterNumber() == t_number) {
+	                valid = true; 
+	                break;
+	            }
+	        }
+	        if (!valid) {
+	            System.out.println("잘못된 상영관 번호입니다. 다시 입력해주세요.");
+	        }
+	    }
+
+	    System.out.print("새 상영관 제목 : ");
+	    String t_name = sc.nextLine();
+	    System.out.print("새 좌석 : ");
+	    int t_seat = sc.nextInt();    
+	    System.out.print("새 한 줄 좌석 : ");
+	    int t_lineseat = sc.nextInt();
+
+	    int result = mc.updatetheater(t_number, t_name, t_seat, t_lineseat);
+	    if(result > 0) {
+	        System.out.println("상영관 정보가 성공적으로 수정되었습니다.");
+	    } else {
+	        System.out.println("상영관 정보 수정에 실패했습니다.");
+	    }
 	}
 	
 	//상영관 삭제
 	public void deletTheater() {
+		showAllTheaters();
 		System.out.println("===상영관 삭제===");
 		System.out.print("상영관 번호 : ");
 		int t_number = sc.nextInt();
 		sc.nextLine();
 		
-		int result = controller.deletTheater(t_number);
+		List<TheaterVo> theaterList = controller.searchTheater();
+		TheaterVo theaterToDelete = null;
 		
-		if(result > 0) {
-			System.out.println("상영관이 성공적으로 삭제되었습니다.");
-		} else {
-			System.out.println("상영관 삭제에 실패했습니다.");
+		    for (TheaterVo theater : theaterList) {
+		        if (theater.getTheaterNumber() == t_number) {
+		        	theaterToDelete = theater;
+		            break;  
+		        }
+		    }
+		if(theaterToDelete != null) {
+			String yn;
+			while(true) {
+				System.out.print("정말 삭제하시겠습니까? (Y/N) : ");
+				yn = sc.nextLine().toUpperCase();
+				if("Y".equals(yn)) {
+					int result = controller.deletTheater(t_number);
+					System.out.println("상영관이 성공적으로 삭제되었습니다.");
+					break;
+				}else if("N".equals(yn)){
+					System.out.println("삭제를 취소하셨습니다.");
+					break;
+				}else {
+					System.out.println("잘못된 입력 방식입니다. 다시 입력해주세요.");
+				}
+			}
+			}else {
+				System.out.println("존재하지 않는 상영관 번호입니다.");
+			}
 		}
-		
-	}
-} 
+	} 
