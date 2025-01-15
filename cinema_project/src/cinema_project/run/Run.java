@@ -1,10 +1,10 @@
 package cinema_project.run;
 
-import cinema_project.view.Menu;
+import cinema_project.view.Menugood;
 
 public class Run {
 	 public static void main(String[] args) {
-		 Menu m = new Menu();
+		 Menugood m = new Menugood();
 		 m.mainMenu();
 	}
 }
