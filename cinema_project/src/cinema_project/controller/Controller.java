@@ -59,5 +59,7 @@ public class Controller {
     		System.out.println(name+"\n정보조회가 완료되었습니다.");
     	}
     	User searchuser = userService.searchUserInfossnph(user);
+    	
+    	
     }
 }

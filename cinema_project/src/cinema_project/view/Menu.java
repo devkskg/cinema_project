@@ -66,18 +66,20 @@ public class Menu {
 
 	        userController.loginUser(userId, userPw);
 	    }
+	    public void goodee() {}
 	    private void deleteUser() {
 	        System.out.println("=== 회원탈퇴 ===");
-	        System.out.print("아이디: ");
+	        System.out.print("아이디:     ");
 	        String userId = sc.nextLine();
-	        System.out.print("비밀번호: ");
+	        System.out.print("비밀번호:       ");
 	        String userPw = sc.nextLine();
 
 	        userController.deleteUser(userId, userPw);
 	    }
 	    
-	    public void goodee() {}
 	    
+	    
+	    public void goodee1111() {}
 	}
 	
 
