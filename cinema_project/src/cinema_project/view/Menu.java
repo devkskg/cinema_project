@@ -24,6 +24,7 @@ public class Menu {
 	                case 1: createUser(); break;
 	                case 2: loginUser(); break;
 	                case 3: searchUserInfossnph(); break;
+	                case 4: deleteUser(); break;
 	                case 0: System.out.println("프로그램을 종료합니다."); return;
 	                default: System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
 	            }
