@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,intellij,java
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,eclipse,intellij,java
+# Created by https://www.toptal.com/developers/gitignore/api/java,windows,eclipse,intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,eclipse,intellij
 
 .classpath
 .project
@@ -17,6 +17,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+*.properties
 
 # External tool builders
 .externalToolBuilders/
@@ -210,39 +211,6 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
-### macOS ###
-# General
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
-
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-### macOS Patch ###
-# iCloud generated files
-*.icloud
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -269,4 +237,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,intellij,java
+# End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse,intellij
