@@ -75,6 +75,9 @@ public class Menu {
 
 	        userController.deleteUser(userId, userPw);
 	    }
+	    
+	    public void goodee() {}
+	    
 	}
 	
 
