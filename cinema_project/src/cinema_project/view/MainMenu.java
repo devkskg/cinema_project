@@ -1,12 +1,15 @@
 package cinema_project.view;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
 import cinema_project.controller.Controller;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
+import cinema_project.model.vo.TimeTable;
 
 
 
@@ -38,9 +41,9 @@ public class MainMenu {
  			case 4 : addTheater(); break;
 			case 5 : updateTheater();break;
 			case 6 : deletTheater(); break;
-//			case 7 : createTimetable();break;
-//			case 8 : editTimetable(); break;
-			case 9 : break;
+			case 7 : createTimetable();break;
+			case 8 : editTimetable(); break;
+			case 9 : deleteTimetable(); break;
 			case 10 : System.out.println("***로그아웃 완료***"); return;
 			default : System.out.println("잘못된 번호를 입력하였습니다 다시 입력해주세요!!"); break;
 			
@@ -56,8 +59,8 @@ public class MainMenu {
         } else {
             System.out.println("=== 영화 목록 ===");
             for (MovieVo movie : movies) {
-                System.out.println("영화 번호: " + movie.getMovieNumber() + ", 제목: " + movie.getMovieName() +
-                        ", 러닝타임: " + movie.getMovieRuntime() + "분, 가격: " + movie.getMoviePrice() + ", 상영등급: " + movie.getMovieRating());
+                System.out.println("영화 번호: " + movie.getmNo() + ", 제목: " + movie.getmTitle() +
+                        ", 러닝타임: " + movie.getmRuntime() + "분, 가격: " + movie.getmPrice() + ", 상영등급: " + movie.getmRating());
             }
         }
     }
@@ -70,8 +73,8 @@ public class MainMenu {
         } else {
             System.out.println("=== 상영관 목록 ===");
             for (TheaterVo theater : theaters) {
-                System.out.println("상영관 번호: " + theater.getTheaterNumber() + ", 이름: " + theater.getTheaterName() +
-                        ", 좌석 수: " + theater.getTheaterSeat() + ", 한 줄 좌석 수: " + theater.getTheaterLineseat());
+                System.out.println("상영관 번호: " + theater.gettNo() + ", 이름: " + theater.gettName() +
+                        ", 좌석 수: " + theater.gettSeat() + ", 한 줄 좌석 수: " + theater.gettLineseat());
             }
         }
     }
@@ -91,7 +94,7 @@ public class MainMenu {
 
 		    List<MovieVo> movieList = controller.searchMovie();
 		    for (MovieVo movie : movieList) {
-		        if (movie.getMovieName().equals(m_name)) {
+		        if (movie.getmTitle().equals(m_name)) {
 		            System.out.println("영화 제목이 중복되어 추가 불가능합니다.");
 		            return;
 		        }
@@ -128,7 +131,7 @@ public class MainMenu {
 		        
 		        List<MovieVo> movieList = mc.getAllMovies();
 		        for (MovieVo movie : movieList) {
-		            if (movie.getMovieNumber() == m_number) {
+		            if (movie.getmNo() == m_number) {
 		                valid = true; 
 		                break;
 		            }
@@ -166,7 +169,7 @@ public class MainMenu {
 		MovieVo movieToDelete = null;
 	    
 	    for (MovieVo movie : movieList) {
-	        if (movie.getMovieNumber() == m_number) {
+	        if (movie.getmNo() == m_number) {
 	            movieToDelete = movie;
 	            break; 
 	        }
@@ -212,7 +215,7 @@ public class MainMenu {
 
 	    List<TheaterVo> theaterList = controller.searchTheater();
 	    for (TheaterVo theater : theaterList) {
-	        if (theater.getTheaterName().equals(t_name)) {
+	        if (theater.gettName().equals(t_name)) {
 	            System.out.println("상영관 이름이 중복되어 추가 불가능합니다.");
 	            return; 
 	        }
@@ -249,7 +252,7 @@ public class MainMenu {
 	        
 	        List<TheaterVo> theaterList = mc.getAllTheaters();
 	        for (TheaterVo theater : theaterList) {
-	            if (theater.getTheaterNumber() == t_number) {
+	            if (theater.gettNo() == t_number) {
 	                valid = true; 
 	                break;
 	            }
@@ -286,7 +289,7 @@ public class MainMenu {
 		TheaterVo theaterToDelete = null;
 		
 		    for (TheaterVo theater : theaterList) {
-		        if (theater.getTheaterNumber() == t_number) {
+		        if (theater.gettNo() == t_number) {
 		        	theaterToDelete = theater;
 		            break;  
 		        }
@@ -311,4 +314,137 @@ public class MainMenu {
 				System.out.println("존재하지 않는 상영관 번호입니다.");
 			}
 		}
-	} 
+
+
+//타임테이블 추가
+	public void createTimetable() {
+		List<MovieVo> list = controller.viewMovieVo();
+		System.out.println("===영화 정보===");
+		printList2(list);
+		
+		System.out.println("======영화 시간표 추가======");
+		System.out.print("영화 번호 : ");
+		int no = sc.nextInt();
+		sc.nextLine();
+		List<TheaterVo> list1 = controller.viewTheaterVo();
+		System.out.println("===상영관 정보===");
+		printList3(list1);
+		
+		System.out.print("상영관 이름 : ");
+		String tname = sc.nextLine();
+		System.out.print("시작시간 (yyyy-MM-dd HH:mm:ss) : ");
+		String start = sc.nextLine();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime starttime = LocalDateTime.parse(start,formatter);
+		LocalDateTime endtime = starttime.plusMinutes(list.get(no-1).getmRuntime());
+		System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : " + endtime);
+		String createmt = list.get(no-1).getmTitle();
+		
+		
+//		String convertEndtime = start + list.get(no).getmRuntime(); 
+		
+		int result = controller.createTimetable(createmt,tname,starttime);
+		if(result > 0 ) {
+			System.out.println("성공적으로 추가하였습니다!");
+		}else {
+			System.out.println("추가 실패 ㅠㅡㅠ");
+		}
+		
+		
+	}
+	
+	//타임테이블 수정
+		public void editTimetable() {
+			List<TimeTable> list = controller.viewTimeTable();
+			System.out.println("=====영화 시간표 정보=====");
+			printList(list);
+			System.out.println("어떤 영화의 정보를 수정하시겠습니가");
+			System.out.print("번호 : ");
+			int movieNo = sc.nextInt();
+			sc.nextLine();
+			
+			
+			System.out.print("수정 시작시간 (yyyy-MM-dd HH:mm:ss) : ");
+			String start = sc.nextLine();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime starttime = LocalDateTime.parse(start,formatter);
+			LocalDateTime endtime = starttime.plusMinutes(viewMovie().get(movieNo-1).getmRuntime());
+			System.out.print("끝나는 시간 (yyyy-MM-dd HH:mm:ss) : " + endtime);
+			int result = controller.editTimetable(movieNo,start,starttime);
+			if(result > 0 ) {
+				System.out.print("୧〳 ” ʘ̆ ᗜ ʘ̆ ” 〵୨");
+				System.out.print("성공적으로 수정!");
+			}else {
+				System.out.println("수정 실패 ㅠㅠ");
+			}
+			
+			}
+	
+
+		
+		// -상영관(theater) 테이블 전체 조회 메소드-
+		public List<TheaterVo> viewTheater(){
+			List<TheaterVo> list = controller.viewTheaterVo();
+			return list;
+		}
+		
+		// -상영관(theater) 테이블 전체 조회 결과 메소드-
+		public void printList3(List <TheaterVo> list) {
+			if(list.isEmpty()) {
+				System.out.println("조회된 결과가 없습니다.");
+			} else {
+				for(TheaterVo m : list) {
+					System.out.println(m);
+				}			
+			}
+		}
+		
+
+		// -타임테이블 전체 조회 메소드-
+		public List<TimeTable> viewTimeTable() {
+			List<TimeTable>list = controller.viewTimeTable();
+			return list;
+		}
+		// -타임테이블 전체 결과 메소드-
+		public void printList(List<TimeTable> list) {
+			if(list.isEmpty()) {
+				System.out.println("조회된 결과가 없습니다.");
+			} else {
+				for(TimeTable m : list) {
+					System.out.println(m);
+				}	
+			}	
+		}
+		
+		
+		// --movie 테이블 전체 조회 메소드--
+		public List<MovieVo>viewMovie(){
+			List<MovieVo>list = controller.viewMovieVo();
+			return list;
+		}
+		// -movie 테이블 전체 결과 메소드-
+		public void printList2(List <MovieVo> list) {
+			if(list.isEmpty()) {
+				System.out.println("조회된 결과가 없습니다.");
+			} else {
+				for(MovieVo m : list) {
+					System.out.println(m);
+				}			
+			}
+		}
+		//9번 delete		
+		public void deleteTimetable() {
+			List<TimeTable> list = controller.viewTimeTable();
+			printList(list);
+			System.out.print("삭제하고자 하는 영화번호를 입력해주세요 : ");
+			int delete = sc.nextInt();
+			int result = controller.deleteTimetable(delete);
+			if(result > 0) {
+				System.out.println("성공적으로 삭제했습니다!");
+			}else {
+				System.out.println("!!!!삭제 중 오류!!!!");
+			}
+			}
+		
+		}
+

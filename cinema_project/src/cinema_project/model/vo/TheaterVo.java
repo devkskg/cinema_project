@@ -1,62 +1,81 @@
 package cinema_project.model.vo;
 
 public class TheaterVo {
-    private int theaterNumber;
-    private String theaterName;
-    private int theaterSeat;
-    private int theaterLineseat;
+    private int tNo;
+    private String tName;
+    private int tSeat;
+    private int tLineseat;
 
-    // 기본 생성자
     public TheaterVo() {}
 
-    // 상영관 정보 생성자
-    public TheaterVo(int theaterNumber, String theaterName, int theaterSeat, int theaterLineseat) {
-        this.theaterNumber = theaterNumber;
-        this.theaterName = theaterName;
-        this.theaterSeat = theaterSeat;
-        this.theaterLineseat = theaterLineseat;
-    }
-    
-    public TheaterVo(String theaterName, int theaterSeat, int theaterLineseat) {
-        this.theaterName = theaterName;
-        this.theaterSeat = theaterSeat;
-        this.theaterLineseat = theaterLineseat;
-    }
-    // Getter and Setter
-    public int getTheaterNumber() {
-        return theaterNumber;
-    }
+    public int gettNo() {
+		return tNo;
+	}
 
-    public void setTheaterNumber(int theaterNumber) {
-        this.theaterNumber = theaterNumber;
-    }
 
-    public String getTheaterName() {
-        return theaterName;
-    }
 
-    public void setTheaterName(String theaterName) {
-        this.theaterName = theaterName;
-    }
+	public void settNo(int tNo) {
+		this.tNo = tNo;
+	}
 
-    public int getTheaterSeat() {
-        return theaterSeat;
-    }
 
-    public void setTheaterSeat(int theaterSeat) {
-        this.theaterSeat = theaterSeat;
-    }
 
-    public int getTheaterLineseat() {
-        return theaterLineseat;
-    }
+	public String gettName() {
+		return tName;
+	}
 
-    public void setTheaterLineseat(int theaterLineseat) {
-        this.theaterLineseat = theaterLineseat;
-    }
 
-    @Override
+
+	public void settName(String tName) {
+		this.tName = tName;
+	}
+
+
+
+	public int gettSeat() {
+		return tSeat;
+	}
+
+
+
+	public void settSeat(int tSeat) {
+		this.tSeat = tSeat;
+	}
+
+
+
+	public int gettLineseat() {
+		return tLineseat;
+	}
+
+
+
+	public void settLineseat(int tLineseat) {
+		this.tLineseat = tLineseat;
+	}
+
+
+
+	public TheaterVo(int tNo, String tName, int tSeat, int tLineseat) {
+		super();
+		this.tNo = tNo;
+		this.tName = tName;
+		this.tSeat = tSeat;
+		this.tLineseat = tLineseat;
+	}
+	
+	public TheaterVo(String tName, int tSeat, int tLineseat) {
+		super();
+		this.tName = tName;
+		this.tSeat = tSeat;
+		this.tLineseat = tLineseat;
+	}
+	
+
+
+
+	@Override
     public String toString() {
-        return "[상영관 번호: " + theaterNumber + ", 이름: " + theaterName + ", 좌석 수: " + theaterSeat + ", 한 줄 좌석: " + theaterLineseat+"]";
+        return "[상영관 번호: " + tNo + ", 이름: " + tName + ", 좌석 수: " + tSeat + ", 한 줄 좌석: " + tLineseat+"]";
     }
 } 

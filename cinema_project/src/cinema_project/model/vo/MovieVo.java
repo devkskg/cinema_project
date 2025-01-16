@@ -1,75 +1,135 @@
 package cinema_project.model.vo;
 
 public class MovieVo {
-    private int movieNumber;
-    private String movieName;
-    private int movieRuntime;
-    private int moviePrice;
-    private int movieRating;
+	private int mNo;
+	private String mTitle;
+	private int mRuntime;
+	private int mPrice;
+	private int mRating;
+	private int mCount;
+	private String mReview;
 
     // 기본 생성자
     public MovieVo() {}
 
-    // 영화 정보 생성자
-    public MovieVo(int movieNumber, String movieName, int movieRuntime, int moviePrice, int movieRating) {
-        this.movieNumber = movieNumber;
-        this.movieName = movieName;
-        this.movieRuntime = movieRuntime;
-        this.moviePrice = moviePrice;
-        this.movieRating = movieRating;
-    }
-    
-    public MovieVo(String movieName, int movieRuntime, int moviePrice, int movieRating) {
-        this.movieName = movieName;
-        this.movieRuntime = movieRuntime;
-        this.moviePrice = moviePrice;
-        this.movieRating = movieRating;
-    }
-    
-    
-    // Getter and Setter
-    public int getMovieNumber() {
-        return movieNumber;
-    }
+   
 
-    public void setMovieNumber(int movieNumber) {
-        this.movieNumber = movieNumber;
-    }
+    public int getmNo() {
+		return mNo;
+	}
 
-    public String getMovieName() {
-        return movieName;
-    }
 
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
-    }
 
-    public int getMovieRuntime() {
-        return movieRuntime;
-    }
+	public void setmNo(int mNo) {
+		this.mNo = mNo;
+	}
 
-    public void setMovieRuntime(int movieRuntime) {
-        this.movieRuntime = movieRuntime;
-    }
 
-    public int getMoviePrice() {
-        return moviePrice;
-    }
 
-    public void setMoviePrice(int moviePrice) {
-        this.moviePrice = moviePrice;
-    }
+	public String getmTitle() {
+		return mTitle;
+	}
 
-    public int getMovieRating() {
-        return movieRating;
-    }
 
-    public void setMovieRating(int movieRating) {
-        this.movieRating = movieRating;
-    }
 
-    @Override
+	public void setmTitle(String mTitle) {
+		this.mTitle = mTitle;
+	}
+
+
+
+	public int getmRuntime() {
+		return mRuntime;
+	}
+
+
+
+	public void setmRuntime(int mRuntime) {
+		this.mRuntime = mRuntime;
+	}
+
+
+
+	public int getmPrice() {
+		return mPrice;
+	}
+
+
+
+	public void setmPrice(int mPrice) {
+		this.mPrice = mPrice;
+	}
+
+
+
+	public int getmRating() {
+		return mRating;
+	}
+
+
+
+	public void setmRating(int mRating) {
+		this.mRating = mRating;
+	}
+
+
+
+	public int getmCount() {
+		return mCount;
+	}
+
+
+
+	public void setmCount(int mCount) {
+		this.mCount = mCount;
+	}
+
+
+
+	public String getmReview() {
+		return mReview;
+	}
+
+
+
+	public void setmReview(String mReview) {
+		this.mReview = mReview;
+	}
+
+
+
+	public MovieVo(int mNo, String mTitle, int mRuntime, int mPrice, int mRating, int mCount, String mReview) {
+		super();
+		this.mNo = mNo;
+		this.mTitle = mTitle;
+		this.mRuntime = mRuntime;
+		this.mPrice = mPrice;
+		this.mRating = mRating;
+		this.mCount = mCount;
+		this.mReview = mReview;
+	}
+	
+	public MovieVo(String mTitle, int mRuntime, int mPrice, int mRating) {
+		super();
+		this.mTitle = mTitle;
+		this.mRuntime = mRuntime;
+		this.mPrice = mPrice;
+		this.mRating = mRating;
+	}
+
+	public MovieVo(int mNo, String mTitle, int mRuntime, int mPrice, int mRating) {
+		super();
+		this.mTitle = mTitle;
+		this.mRuntime = mRuntime;
+		this.mPrice = mPrice;
+		this.mRating = mRating;
+	}
+
+
+
+	@Override
     public String toString() {
-        return "[영화 번호: " + movieNumber + ", 이름: " + movieName + ", 러닝타임: " + movieRuntime + "분, 가격: " + moviePrice + ", 상영등급: " + movieRating+"]";
+        return "[영화 번호: " + mNo + ", 이름: " + mTitle + ", 러닝타임: " + mRuntime + "분, 가격: " + mPrice + ", 상영등급: " + mRating+"]";
     }
+    
 } 
