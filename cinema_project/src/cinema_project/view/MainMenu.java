@@ -318,7 +318,7 @@ public class MainMenu {
 
 //타임테이블 추가
 	public void createTimetable() {
-		List<MovieVo> list = controller.viewMovieVo();
+		List<MovieVo> list = controller.viewMovie();
 		System.out.println("===영화 정보===");
 		printList2(list);
 		
@@ -326,7 +326,7 @@ public class MainMenu {
 		System.out.print("영화 번호 : ");
 		int no = sc.nextInt();
 		sc.nextLine();
-		List<TheaterVo> list1 = controller.viewTheaterVo();
+		List<TheaterVo> list1 = controller.viewTheater();
 		System.out.println("===상영관 정보===");
 		printList3(list1);
 		
@@ -384,7 +384,7 @@ public class MainMenu {
 		
 		// -상영관(theater) 테이블 전체 조회 메소드-
 		public List<TheaterVo> viewTheater(){
-			List<TheaterVo> list = controller.viewTheaterVo();
+			List<TheaterVo> list = controller.viewTheater();
 			return list;
 		}
 		
@@ -419,7 +419,7 @@ public class MainMenu {
 		
 		// --movie 테이블 전체 조회 메소드--
 		public List<MovieVo>viewMovie(){
-			List<MovieVo>list = controller.viewMovieVo();
+			List<MovieVo>list = controller.viewMovie();
 			return list;
 		}
 		// -movie 테이블 전체 결과 메소드-

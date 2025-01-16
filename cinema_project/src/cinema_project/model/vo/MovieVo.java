@@ -119,6 +119,7 @@ public class MovieVo {
 
 	public MovieVo(int mNo, String mTitle, int mRuntime, int mPrice, int mRating) {
 		super();
+		this.mNo =  mNo;
 		this.mTitle = mTitle;
 		this.mRuntime = mRuntime;
 		this.mPrice = mPrice;

@@ -92,7 +92,7 @@ public class Dao {
 	    return movieList;
 	}
 	
-	// 중복 확인
+	// 영화 중복 확인
 	public List<MovieVo> searchMovie() {
 	    List<MovieVo> movieList = new ArrayList<>();
 	    Connection conn = null;
@@ -169,170 +169,125 @@ public class Dao {
 	    return theaterList;
 	}
 	
-	
-	
-	public int updatetheater(TheaterVo v) {	
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int result = 0;
-		try {
-		conn = new Service().getConnection();
-		String sql = "UPDATE theater SET t_name = ?, t_seat = ?, t_lineseat = ? WHERE t_no = ?";
-		pstmt = conn.prepareStatement(sql);			
-		pstmt.setString(1, v.gettName()); 
-		pstmt.setInt(2, v.gettSeat()); 
-		pstmt.setInt(3, v.gettLineseat()); 
-		pstmt.setInt(4, v.gettNo()); 
-		result = pstmt.executeUpdate();    
-	}catch(Exception e) {
-		e.printStackTrace();
-	}finally {
-		try{
-			pstmt.close();
-			conn.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	return result;		
-	}
-	
-	// 상영관 추가
-	public int addTheater(TheaterVo v) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int result = 0;
-		try {
-			conn = new Service().getConnection();
-			String sql = "INSERT INTO theater(t_name,t_seat,t_lineseat) VALUES(?,?,?);";
-			pstmt= conn.prepareStatement(sql);
-			pstmt.setString(1, v.gettName()); 
-	        pstmt.setInt(2, v.gettSeat());
-	        pstmt.setInt(3, v.gettLineseat()); 
-			result = pstmt.executeUpdate();		
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally{
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return result;	
-	}
-	
 	// 영화 추가
-	public int addMovie(MovieVo v) {
-	    Connection conn = null;
+	public int addMovie(String title, int runtime, int price, int rating, Connection conn) {
 	    PreparedStatement pstmt = null;
 	    int result = 0;
-	    try {	     
-	        conn = new Service().getConnection(); 
-	    
-	        String sql = "INSERT INTO movie(m_title,m_runtime,m_price,m_rating) VALUES(?,?,?,?);";
+	    try {
+	        String sql = "INSERT INTO movie(m_title, m_runtime, m_price, m_rating) VALUES(?, ?, ?, ?)";
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, v.getmTitle()); 
-	        pstmt.setInt(2, v.getmRuntime()); 
-	        pstmt.setInt(3, v.getmPrice()); 
-	        pstmt.setInt(4, v.getmRating()); 	
+	        pstmt.setString(1, title);
+	        pstmt.setInt(2, runtime);
+	        pstmt.setInt(3, price);
+	        pstmt.setInt(4, rating);
 	        result = pstmt.executeUpdate();
-	    } catch(Exception e) {
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
-	        try {
-	            if (pstmt != null) pstmt.close();
-	            if (conn != null) conn.close();
-	        } catch(Exception e) {
-	            e.printStackTrace();
-	        }
+	        close(pstmt);
 	    }
 	    return result;
 	}
 	
 	// 영화 업데이트
-	public int updateMovie(MovieVo v) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int result = 0;
-		try {
-			conn = new Service().getConnection();
-			String sql = "UPDATE movie SET m_title = ?, m_runtime = ?, m_price = ?, m_rating = ? WHERE m_no = ?";
-			pstmt = conn.prepareStatement(sql);			
-			pstmt.setString(1, v.getmTitle());
-            pstmt.setInt(2, v.getmRuntime()); 
-            pstmt.setInt(3, v.getmPrice());
-            pstmt.setInt(4, v.getmRating()); 
-            pstmt.setInt(5, v.getmNo());
-            result = pstmt.executeUpdate();    
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try{
-				pstmt.close();
-				conn.close();
-				
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		return result;		
+	public int updateMovie(int movieNo, String title, int runtime, int price, int rating, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "UPDATE movie SET m_title = ?, m_runtime = ?, m_price = ?, m_rating = ? WHERE m_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, title);
+	        pstmt.setInt(2, runtime);
+	        pstmt.setInt(3, price);
+	        pstmt.setInt(4, rating);
+	        pstmt.setInt(5, movieNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
 	}
 	
 	// 영화 삭제
-	public int deletMovie(int m_number){
-		 Connection conn = null;
-		 PreparedStatement pstmt = null;
-		 int result = 0;
-		  try {
-			    conn = new Service().getConnection();
-		        String sql = "DELETE FROM movie WHERE m_no = ?";
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setInt(1, m_number); 
-		        result = pstmt.executeUpdate();
-		        
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    } finally {
-		        try {
-		            pstmt.close();
-		            conn.close();
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    }
-		    return result;
-		}
+	public int deleteMovie(int movieNo, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "DELETE FROM movie WHERE m_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, movieNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	// 상영관 추가
+	
+	public int addTheater(String name, int seat, int lineSeat, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "INSERT INTO theater(t_name, t_seat, t_lineseat) VALUES(?, ?, ?)";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, name);
+	        pstmt.setInt(2, seat);
+	        pstmt.setInt(3, lineSeat);
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	//상영관 수정
+	public int updateTheater(int theaterNo, String name, int seat, int lineSeat, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "UPDATE theater SET t_name = ?, t_seat = ?, t_lineseat = ? WHERE t_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, name);
+	        pstmt.setInt(2, seat);
+	        pstmt.setInt(3, lineSeat);
+	        pstmt.setInt(4, theaterNo); // 상영관 번호로 조건 설정
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
 	// 상영관 삭제
-	public int deletTheater(int t_number){
-		 Connection conn = null;
-		 PreparedStatement pstmt = null;
-		 int result = 0;
-		  try {
-			    conn = new Service().getConnection();
-		        String sql = "DELETE FROM theater WHERE t_no = ?";
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setInt(1, t_number);  
-		        result = pstmt.executeUpdate();
-		        
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    } finally {
-//		        try {
-//		            pstmt.close();
-//		            conn.close();
-//		        } catch (Exception e) {
-//		            e.printStackTrace();
-//		        }
-		    	close(pstmt);
-		    	close(conn);
-		    }
-		    return result;
-		} 
+	
+	public int deleteTheater(int theaterNo, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "DELETE FROM theater WHERE t_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, theaterNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+	    return result;
+	}
 
+	
+
+	// timetable 추가
 	public int createTimetable(String createmt,String tname,LocalDateTime start, Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -354,7 +309,7 @@ public class Dao {
 		}
 		return result;
 	}
-	
+	// timetable 수정
 	public int editTimetable(int movieNo,String start, LocalDateTime starttime,Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
