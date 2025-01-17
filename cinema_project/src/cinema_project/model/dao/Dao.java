@@ -1,6 +1,8 @@
 package cinema_project.model.dao;
-import static cinema_project.common.TimeTableTemPlate.close;
 
+
+import static cinema_project.common.TimeTableTemPlate.close;
+import static cinema_project.common.TimeTableTemPlate.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,14 +11,283 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import cinema_project.model.vo.Movie;
-import cinema_project.model.vo.Theater;
+import cinema_project.model.service.Service;
+import cinema_project.model.vo.MovieVo;
+import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
 
-
 public class Dao {
+	//상영관 전체 조회
+	public List<TheaterVo> getAllTheaters() {
+	    List<TheaterVo> theaterList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = new Service().getConnection();
+	        String sql = "SELECT * FROM theater"; 
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            int theaterNumber = rs.getInt("t_no");
+	            String theaterName = rs.getString("t_name");
+	            int theaterSeat = rs.getInt("t_seat");
+	            int theaterLineseat = rs.getInt("t_lineseat");
+
+	            TheaterVo theater = new TheaterVo(theaterNumber, theaterName, theaterSeat, theaterLineseat);
+	            theaterList.add(theater);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            rs.close();
+	            pstmt.close();
+	            conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return theaterList;
+	}
 	
+	//영화 전체 조회
+	public List<MovieVo> getAllMovies() {
+	    List<MovieVo> movieList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = new Service().getConnection();
+	        String sql = "SELECT * FROM movie"; 
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            int movieNumber = rs.getInt("m_no");
+	            String movieName = rs.getString("m_title");
+	            int movieRuntime = rs.getInt("m_runtime");
+	            int moviePrice = rs.getInt("m_price");
+	            int movieRating = rs.getInt("m_rating");
+
+	            MovieVo movie = new MovieVo(movieNumber, movieName, movieRuntime, moviePrice, movieRating);
+	            movieList.add(movie);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            rs.close();
+	            pstmt.close();
+	            conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return movieList;
+	}
 	
+	// 영화 중복 확인
+	public List<MovieVo> searchMovie() {
+	    List<MovieVo> movieList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        conn = new Service().getConnection();
+	        String sql = "SELECT * FROM movie";
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        rs = pstmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            int movieNumber = rs.getInt("m_no");
+	            String movieName = rs.getString("m_title");
+	            int movieRuntime = rs.getInt("m_runtime");
+	            int moviePrice = rs.getInt("m_price");
+	            int movieRating = rs.getInt("m_rating");
+	            
+//	            MovieVo movie = new MovieVo(movieName, movieRuntime, moviePrice, movieRating);
+	            MovieVo movie = new MovieVo(movieNumber, movieName, movieRuntime, moviePrice, movieRating);
+	            movieList.add(movie);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            rs.close();
+	            pstmt.close();
+	            conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    return movieList;
+	}
+	// 상영관 중복 확인
+	public List<TheaterVo> searchTheater() {
+	    List<TheaterVo> theaterList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        conn = new Service().getConnection();
+	        String sql = "SELECT * FROM theater";
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        rs = pstmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            int theaterNumber = rs.getInt("t_no");
+	            String teaterName = rs.getString("t_name");
+	            int teaterSeat = rs.getInt("t_seat");
+	            int teaterLineseat = rs.getInt("t_lineseat");
+	            
+	            TheaterVo theater = new TheaterVo(theaterNumber, teaterName, teaterSeat, teaterLineseat);
+	            theaterList.add(theater);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            rs.close();
+	            pstmt.close();
+	            conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    return theaterList;
+	}
+	
+	// 영화 추가
+	public int addMovie(String title, int runtime, int price, int rating, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "INSERT INTO movie(m_title, m_runtime, m_price, m_rating) VALUES(?, ?, ?, ?)";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, title);
+	        pstmt.setInt(2, runtime);
+	        pstmt.setInt(3, price);
+	        pstmt.setInt(4, rating);
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+	    return result;
+	}
+	
+	// 영화 업데이트
+	public int updateMovie(int movieNo, String title, int runtime, int price, int rating, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "UPDATE movie SET m_title = ?, m_runtime = ?, m_price = ?, m_rating = ? WHERE m_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, title);
+	        pstmt.setInt(2, runtime);
+	        pstmt.setInt(3, price);
+	        pstmt.setInt(4, rating);
+	        pstmt.setInt(5, movieNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	// 영화 삭제
+	public int deleteMovie(int movieNo, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "DELETE FROM movie WHERE m_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, movieNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	// 상영관 추가
+	
+	public int addTheater(String name, int seat, int lineSeat, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "INSERT INTO theater(t_name, t_seat, t_lineseat) VALUES(?, ?, ?)";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, name);
+	        pstmt.setInt(2, seat);
+	        pstmt.setInt(3, lineSeat);
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	//상영관 수정
+	public int updateTheater(int theaterNo, String name, int seat, int lineSeat, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "UPDATE theater SET t_name = ?, t_seat = ?, t_lineseat = ? WHERE t_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, name);
+	        pstmt.setInt(2, seat);
+	        pstmt.setInt(3, lineSeat);
+	        pstmt.setInt(4, theaterNo); // 상영관 번호로 조건 설정
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt); 
+	    }
+	    return result;
+	}
+	
+	// 상영관 삭제
+	
+	public int deleteTheater(int theaterNo, Connection conn) {
+	    PreparedStatement pstmt = null;
+	    int result = 0;
+	    try {
+	        String sql = "DELETE FROM theater WHERE t_no = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, theaterNo); 
+	        result = pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(pstmt);
+	    }
+	    return result;
+	}
+
+	
+
+	// timetable 추가
 	public int createTimetable(String createmt,String tname,LocalDateTime start, Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -38,7 +309,7 @@ public class Dao {
 		}
 		return result;
 	}
-	
+	// timetable 수정
 	public int editTimetable(int movieNo,String start, LocalDateTime starttime,Connection conn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -64,16 +335,16 @@ public class Dao {
 
 
 	//theater 테이블 목록조회
-	public List<Theater> viewTheater(Connection conn){
+	public List<TheaterVo> viewTheater(Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Theater> list = new ArrayList<Theater>();
+		List<TheaterVo> list = new ArrayList<TheaterVo>();
 		try {
 			String sql = "SELECT * FROM theater ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-			Theater tm = new Theater();
+			TheaterVo tm = new TheaterVo();
 			tm.settNo(rs.getInt("t_no"));
 			tm.settName(rs.getString("t_name"));
 			tm.settSeat(rs.getInt("t_seat"));
@@ -93,16 +364,16 @@ public class Dao {
 	
 	
 	//movie 테이블 목록조회
-	public List<Movie> viewMovie (Connection conn){
+	public List<MovieVo> viewMovie (Connection conn){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Movie> list = new ArrayList<Movie>();
+		List<MovieVo> list = new ArrayList<MovieVo>();
 		try {
 			String sql = "SELECT * FROM movie ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-			Movie tm = new Movie();
+			MovieVo tm = new MovieVo();
 			tm.setmNo(rs.getInt("m_no"));
 			tm.setmTitle(rs.getString("m_title"));
 			tm.setmRuntime(rs.getInt("m_runtime"));
@@ -166,3 +437,4 @@ public class Dao {
 		return result;
 	}
 }
+

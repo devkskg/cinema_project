@@ -48,10 +48,19 @@ public class TimeTableTemPlate {
 	public static void close(ResultSet rs) {
 		
 	try {
-		if(rs != null && rs.isClosed());
+		if(rs != null && !rs.isClosed()) rs.close();
 	}catch(Exception e){
 		e.printStackTrace();
 	}
+	}
+	
+	public static void close(ResultSet rs, PreparedStatement pstmt) {
+		try {
+			if(rs != null && !rs.isClosed()) rs.close();
+			if(pstmt != null && !rs.isClosed()); pstmt.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }
