@@ -501,6 +501,7 @@ public class MainMenu {
 //    	User searchuser = userService.searchUserInfossnph(user);
 //    	mc.searchUserInfossnph(uName,uSsn,uPhone);
     }
+	
     
 	//회원가입
 	private void createUser() {
