@@ -1,6 +1,6 @@
 package cinema_project.model.vo;
 
-public class User {
+public class UserVo {
 	 private int uNo;
 	    private String uId;
 	    private String uPw;
@@ -10,7 +10,7 @@ public class User {
 	    private String uManager;
 
 	    
-	    public User(int uNo, String uId, String uPw, String uName, String uSsn, String uPhone,
+	    public UserVo(int uNo, String uId, String uPw, String uName, String uSsn, String uPhone,
 				String uManager) {
 			super();
 			this.uNo = uNo;
@@ -21,7 +21,7 @@ public class User {
 			this.uPhone = uPhone;
 			this.uManager = uManager;
 		}
-	    public User(String uManager) {
+	    public UserVo(String uManager) {
 	    	this.uManager = uManager;
 	    }
 
@@ -31,24 +31,24 @@ public class User {
 		public void setuManager(String uManager) {
 			this.uManager = uManager;
 		}
-		public User() {
+		public UserVo() {
 			
 		}
 
-		public User(String uName, String uSsn, String uPhone) {
+		public UserVo(String uName, String uSsn, String uPhone) {
 			super();
 			this.uName = uName;
 			this.uSsn = uSsn;
 			this.uPhone = uPhone;
 		}
 
-		public int getUserNo() {
-	        return uNo;
-	    }
-
-	    public void setUserNo(int uNo) {
-	        this.uNo = uNo;
-	    }
+//		public int getUserNo() {
+//	        return uNo;
+//	    }
+//
+//	    public void setUserNo(int uNo) {
+//	        this.uNo = uNo;
+//	    }
 
 	    public String getUserId() {
 	        return uId;

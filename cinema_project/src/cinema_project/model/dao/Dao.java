@@ -15,7 +15,7 @@ import cinema_project.model.service.Service;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
-import cinema_project.model.vo.User;
+import cinema_project.model.vo.UserVo;
 
 public class Dao {
 	//상영관 전체 조회
@@ -328,12 +328,6 @@ public class Dao {
 		return result;
 	}
 	
-	
-	
-	
-
-
-
 
 	//theater 테이블 목록조회
 	public List<TheaterVo> viewTheater(Connection conn){
@@ -361,8 +355,6 @@ public class Dao {
 		return list;
 	}
 		
-	
-	
 	
 	//movie 테이블 목록조회
 	public List<MovieVo> viewMovie (Connection conn){
@@ -441,8 +433,7 @@ public class Dao {
 	
 	
 	
-	// 회원가입 페이지
-	
+	// 회원가입
 	public int createUser(Connection conn, String uId,String uPw,String uName,String uSsn,String uPhone) {
         int result = 0;
         PreparedStatement pstmt = null;
@@ -462,13 +453,13 @@ public class Dao {
         }
         return result;
     }
-	// 로그인 페이지
 	
-    public User loginUser(Connection conn, String uId, String uPw) {
+	// 로그인
+    public UserVo loginUser(Connection conn, String uId, String uPw) {
 //        String userName = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        User userLogin = null;
+        UserVo userLogin = null;
         String sql = "SELECT * FROM user WHERE u_id = ? AND u_pw = ?";
         try {
             pstmt = conn.prepareStatement(sql);
@@ -476,7 +467,7 @@ public class Dao {
             pstmt.setString(2, uPw);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-            	userLogin = new User(rs.getInt("u_no"), rs.getString("u_id"), rs.getString("u_pw"), rs.getString("u_name"), rs.getString("u_ssn"), rs.getString("u_phone"), rs.getString("u_manager"));
+            	userLogin = new UserVo(rs.getInt("u_no"), rs.getString("u_id"), rs.getString("u_pw"), rs.getString("u_name"), rs.getString("u_ssn"), rs.getString("u_phone"), rs.getString("u_manager"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -486,8 +477,8 @@ public class Dao {
         }
         return userLogin;
     }
-    // 회원탈퇴 페이지
     
+    // 회원탈퇴
     public int deleteUser(Connection conn, String uId, String uPw) {
         int result = 0;
         PreparedStatement pstmt = null;
@@ -504,10 +495,10 @@ public class Dao {
         }
         return result;
     }
-    // 아이디,비밀번호 찾기 페이지
     
-	public User searchUserInfossnph(Connection conn, String uName ,String uSsn, String uPhone) {
-		User searchuser = null;	
+    // 아이디,비밀번호 찾기 페이지
+	public UserVo searchUserInfossnph(Connection conn, String uName ,String uSsn, String uPhone) {
+		UserVo searchuser = null;	
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM user WHERE u_name =? AND u_ssn = ? AND u_phone = ? ";
@@ -518,7 +509,7 @@ public class Dao {
             pstmt.setString(3, uPhone);
             rs = pstmt.executeQuery();
 			if(rs.next()) {
-				searchuser = new User(rs.getInt("u_no"),
+				searchuser = new UserVo(rs.getInt("u_no"),
 						rs.getString("u_id"),
 						rs.getString("u_pw"),
 						rs.getString("u_name"),

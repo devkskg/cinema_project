@@ -11,7 +11,7 @@ import cinema_project.model.dao.Dao;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
-import cinema_project.model.vo.User;
+import cinema_project.model.vo.UserVo;
 
 
 public class Service {
@@ -174,13 +174,7 @@ public class Service {
     
     
     
-    
-    
-    
-    
-    
-    
-    // 로그인 페이지
+    // 로그인
     private Dao userDao = new Dao();
 
     public int createUser(String uId,String uPw,String uName,String uSsn,String uPhone) {
@@ -190,9 +184,9 @@ public class Service {
         return result;
     }
 
-    public User loginUser(String uId, String uPw) {
+    public UserVo loginUser(String uId, String uPw) {
         Connection conn = TimeTableTemPlate.getConnection();
-        User userLogin = userDao.loginUser(conn, uId, uPw);
+        UserVo userLogin = userDao.loginUser(conn, uId, uPw);
         TimeTableTemPlate.close(conn);
         return userLogin;
     }
@@ -203,9 +197,9 @@ public class Service {
         TimeTableTemPlate.close(conn);
         return result;
     }
-    public User searchUserInfossnph(String uName ,String uSsn, String uPhone) {
+    public UserVo searchUserInfossnph(String uName ,String uSsn, String uPhone) {
     	Connection conn = TimeTableTemPlate.getConnection();
-    	User searchuser = userDao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
+    	UserVo searchuser = userDao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
     	TimeTableTemPlate.close(conn);
     	return searchuser;
   

@@ -7,7 +7,7 @@ import cinema_project.model.service.Service;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
-import cinema_project.model.vo.User;
+import cinema_project.model.vo.UserVo;
 
 
 public class Controller {
@@ -109,9 +109,6 @@ public class Controller {
     
     
     
-    
-    
-    
     // 회원가입 페이지
     
     public int createUser(String uId, String uPw, String uName, String uSsn, String uPhone) {
@@ -126,7 +123,7 @@ public class Controller {
     }
     // 로그인 페이지
     
-    public User loginUser(String uId, String uPw) {
+    public UserVo loginUser(String uId, String uPw) {
         return service.loginUser(uId, uPw);
 //        User user = new User();
 //        user.setUserId(uId);
@@ -155,7 +152,7 @@ public class Controller {
 //    }
     // 아이디,비밀번호 찾기 페이지
     
-    public User searchUserInfossnph(String uName ,String uSsn, String uPhone) {
+    public UserVo searchUserInfossnph(String uName ,String uSsn, String uPhone) {
     	return service.searchUserInfossnph(uName,uSsn,uPhone);
     }
 }
