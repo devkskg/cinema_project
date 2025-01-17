@@ -15,6 +15,7 @@ import cinema_project.model.service.Service;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
+import cinema_project.model.vo.User;
 
 public class Dao {
 	//상영관 전체 조회
@@ -436,5 +437,107 @@ public class Dao {
 		}
 		return result;
 	}
+	
+	
+	
+	
+	// 회원가입 페이지
+	
+	public int createUser(Connection conn, String uId,String uPw,String uName,String uSsn,String uPhone) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = "INSERT INTO user (u_id, u_pw, u_name, u_ssn, u_phone, u_manager) VALUES (?, ?, ?, ?, ?, 'N')";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, uId);
+            pstmt.setString(2, uPw);
+            pstmt.setString(3, uName);
+            pstmt.setString(4, uSsn);
+            pstmt.setString(5, uPhone);
+            result = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+        return result;
+    }
+	// 로그인 페이지
+	
+    public User loginUser(Connection conn, String uId, String uPw) {
+//        String userName = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        User userLogin = null;
+        String sql = "SELECT * FROM user WHERE u_id = ? AND u_pw = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, uId);
+            pstmt.setString(2, uPw);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+            	userLogin = new User(rs.getInt("u_no"), rs.getString("u_id"), rs.getString("u_pw"), rs.getString("u_name"), rs.getString("u_ssn"), rs.getString("u_phone"), rs.getString("u_manager"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+            close(pstmt);
+        }
+        return userLogin;
+    }
+    // 회원탈퇴 페이지
+    
+    public int deleteUser(Connection conn, String uId, String uPw) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM user WHERE u_id = ? AND u_pw = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, uId);
+            pstmt.setString(2, uPw);
+            result = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+        return result;
+    }
+    // 아이디,비밀번호 찾기 페이지
+    
+	public User searchUserInfossnph(Connection conn, String uName ,String uSsn, String uPhone) {
+		User searchuser = null;	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM user WHERE u_name =? AND u_ssn = ? AND u_phone = ? ";
+		try {
+			pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, uName);
+            pstmt.setString(2, uSsn);
+            pstmt.setString(3, uPhone);
+            rs = pstmt.executeQuery();
+			if(rs.next()) {
+				searchuser = new User(rs.getInt("u_no"),
+						rs.getString("u_id"),
+						rs.getString("u_pw"),
+						rs.getString("u_name"),
+						rs.getString("u_ssn"),
+						rs.getString("u_phone"),
+						rs.getString("u_manager"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return searchuser;
+	}
+	
 }
+	
 
+	
+	
+	

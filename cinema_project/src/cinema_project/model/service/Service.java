@@ -11,6 +11,7 @@ import cinema_project.model.dao.Dao;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
+import cinema_project.model.vo.User;
 
 
 public class Service {
@@ -169,8 +170,51 @@ public class Service {
 //       return DriverManager.getConnection(url, id, pw);
 //    }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 로그인 페이지
+    private Dao userDao = new Dao();
 
+    public int createUser(String uId,String uPw,String uName,String uSsn,String uPhone) {
+        Connection conn = TimeTableTemPlate.getConnection();
+        int result = userDao.createUser(conn, uId, uPw, uName, uSsn, uPhone);
+        TimeTableTemPlate.close(conn);
+        return result;
+    }
 
-	
+    public User loginUser(String uId, String uPw) {
+        Connection conn = TimeTableTemPlate.getConnection();
+        User userLogin = userDao.loginUser(conn, uId, uPw);
+        TimeTableTemPlate.close(conn);
+        return userLogin;
+    }
 
+    public int deleteUser(String uId, String uPw) {
+        Connection conn = TimeTableTemPlate.getConnection();
+        int result = userDao.deleteUser(conn, uId,uPw);
+        TimeTableTemPlate.close(conn);
+        return result;
+    }
+    public User searchUserInfossnph(String uName ,String uSsn, String uPhone) {
+    	Connection conn = TimeTableTemPlate.getConnection();
+    	User searchuser = userDao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
+    	TimeTableTemPlate.close(conn);
+    	return searchuser;
+  
+    	
+    }
 }
+  
+    
+    
+    
+   
+

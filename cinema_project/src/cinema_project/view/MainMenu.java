@@ -7,17 +7,52 @@ import java.util.List;
 import java.util.Scanner;
 
 import cinema_project.controller.Controller;
+import cinema_project.model.service.Service;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
 import cinema_project.model.vo.TimeTable;
+import cinema_project.model.vo.User;
 
 
 
 public class MainMenu {
 	private Scanner sc = new Scanner(System.in);
 	private Controller mc = new Controller();
+	private Service userService = new Service();
+
+	
+	// 메인 메뉴 페이지
 	public void mainMenu() {
 		while(true) {
+			System.out.println("=== 10nema ===");
+			System.out.println("1. 회원가입");
+			System.out.println("2. 로그인");
+			System.out.println("3. 아이디,비밀번호 찾기");
+			System.out.println("4. 회원탈퇴");
+			System.out.println("0. 종료");
+			System.out.print("선택 : ");
+			int menu = sc.nextInt();
+			sc.nextLine(); 
+
+        switch (menu) {
+            case 1: createUser(); break;
+            case 2: loginUser(); break;
+            case 3: searchUserInfossnph(); break;
+            case 4: deleteUser(); return;
+            case 0: System.out.println("프로그램을 종료합니다."); return;
+            default: System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+        }
+        
+        
+        
+		}
+        }
+	
+	
+	
+	
+			// 관리자 페이지 
+        	public void managerMenu() {
 			System.out.println("=====관리자 메뉴에 오신 걸 환영합니다=====");
 			System.out.println("1. 영화 추가");
 			System.out.println("2. 영화 정보 수정");
@@ -49,7 +84,10 @@ public class MainMenu {
 			
 			}
 		}
-	}
+
+
+
+
 	
 	// 영화 목록 
     public void showAllMovies() {
@@ -444,7 +482,144 @@ public class MainMenu {
 			}else {
 				System.out.println("!!!!삭제 중 오류!!!!");
 			}
-			}
-		
 		}
+		
+		
+		
+		
+		
+		
+		// 메인 메뉴 페이지
+		
+	
+
+	private void searchUserInfossnph() {
+		System.out.println("=== 아이디,비밀번호 찾기 ===");
+		System.out.print("이름 : ");
+		String uName = sc.nextLine();
+		System.out.print("주민번호 : ");
+		String uSsn = sc.nextLine();
+		System.out.print("전화번호 : ");
+		String uPhone = sc.nextLine();
+		
+		User name = mc.searchUserInfossnph(uName,uSsn,uPhone);
+    	if(name == null) {
+    		System.out.println("아이디, 비밀번호 찾기 실패 : 일치하는 정보의 사용자가 없습니다.");
+    	} else {
+    		System.out.println(name+"\n정보조회가 완료되었습니다.");
+    	}
+//    	User searchuser = userService.searchUserInfossnph(user);
+//    	mc.searchUserInfossnph(uName,uSsn,uPhone);
+    }
+    
+		
+	private void createUser() {
+	    System.out.println("=== 회원가입 ===");
+	    System.out.print("아이디: ");
+	    String uId = sc.nextLine();
+	    System.out.print("비밀번호: ");
+	    String uPw = sc.nextLine();
+	    System.out.print("이름: ");
+	    String uName = sc.nextLine();
+	    System.out.print("주민등록번호: ");
+	    String uSsn = sc.nextLine();
+	    System.out.print("핸드폰 번호: ");
+	    String uPhone = sc.nextLine();
+	    int result = mc.createUser(uId,uPw,uName,uSsn,uPhone);
+        if (result > 0) {
+            System.out.println("회원가입 성공!");
+        } else {
+            System.out.println("회원가입 실패!");
+        }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	}
+	private void loginUser() {
+	    System.out.println("=== 로그인 ===");
+	    System.out.print("아이디: ");
+	    String uId = sc.nextLine();
+	    System.out.print("비밀번호: ");
+	    String uPw = sc.nextLine();
+
+	    User userLogin = mc.loginUser(uId, uPw);
+	    
+	    if(userLogin == null) {
+	    	System.out.println("아이디 또는 비밀번호가 틀렸습니다.");
+//	    	return;
+	    } else {
+	    	if(userLogin.getuManager().equals("Y")) {
+	    		managerMenu();
+	    	} else {
+//	    	성관 메뉴
+	    		System.out.println("로그인 성공!");
+	    	}
+	    }
+	    
+	    
+	    
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void deleteUser() {
+	    System.out.println("=== 회원탈퇴 ===");
+	    System.out.print("아이디: ");
+	    String uId = sc.nextLine();
+	    System.out.print("비밀번호: ");
+	    String uPw = sc.nextLine();
+
+	    mc.deleteUser(uId, uPw);
+	    
+	    int result = userService.deleteUser(uId,uPw);
+        if (result > 0) {
+            System.out.println("회원탈퇴 성공!");
+        } else {
+            System.out.println("회원탈퇴 실패!");
+        }
+    }
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	  
+	
 
