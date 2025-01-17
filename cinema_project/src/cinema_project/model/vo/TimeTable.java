@@ -85,7 +85,7 @@ public class TimeTable {
 
 	@Override
 	public String toString() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		return "[timeNo=" + timeNo  
 				+ ", mTitle=" + mTitle 
 				+ ", tName=" + tName
