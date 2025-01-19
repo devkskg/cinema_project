@@ -506,20 +506,20 @@ public class Dao {
             rs = pstmt.executeQuery();
 			if(rs.next()) {
 				searchuser = new UserVo(rs.getInt("u_no"),
-						rs.getString("u_id"),
-						rs.getString("u_pw"),
-						rs.getString("u_name"),
-						rs.getString("u_ssn"),
-						rs.getString("u_phone"),
-						rs.getString("u_manager"));
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
-		}
-		return searchuser;
+					rs.getString("u_id"),
+					rs.getString("u_pw"),
+					rs.getString("u_name"),
+					rs.getString("u_ssn"),
+					rs.getString("u_phone"),
+					rs.getString("u_manager"));
+				}
+				}catch(Exception e) {
+					e.printStackTrace();
+				} finally {
+					close(rs);
+					close(pstmt);
+				}
+				return searchuser;
 	}
 	
 }

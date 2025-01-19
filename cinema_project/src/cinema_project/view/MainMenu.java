@@ -487,14 +487,16 @@ public class MainMenu {
 		System.out.println("=== 아이디,비밀번호 찾기 ===");
 		System.out.print("이름 : ");
 		String uName = sc.nextLine();
+		
 		System.out.print("주민번호 : ");
 		String uSsn = sc.nextLine();
+//		.replace("-", "");
 		System.out.print("전화번호 : ");
 		String uPhone = sc.nextLine();
-		
+//		.replace("-", "");
 		UserVo name = mc.searchUserInfossnph(uName,uSsn,uPhone);
     	if(name == null) {
-    		System.out.println("아이디, 비밀번호 찾기 실패 : 일치하는 정보의 사용자가 없습니다.");
+    		System.out.println("아이디,비밀번호 찾기 실패 : 일치하는 정보의 사용자가 없습니다.");
     	} else {
     		System.out.println(name+"\n정보조회가 완료되었습니다.");
     	}

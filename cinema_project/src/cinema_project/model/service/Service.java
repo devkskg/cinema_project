@@ -185,11 +185,8 @@ public class Service {
     	Connection conn = TimeTableTemPlate.getConnection();
     	UserVo searchuser = dao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
     	return searchuser;
-  
-    	
     }
 }
-  //    	TimeTableTemPlate.close(conn);
     
     
     
