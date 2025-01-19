@@ -2,7 +2,6 @@ package cinema_project.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import cinema_project.model.dao.Dao;
 import cinema_project.model.service.Service;
 import cinema_project.model.vo.MovieVo;
 import cinema_project.model.vo.TheaterVo;
@@ -110,48 +109,19 @@ public class Controller {
     
     
     // 회원가입 페이지
-    
     public int createUser(String uId, String uPw, String uName, String uSsn, String uPhone) {
-//        User user = new User();
-//        user.setUserId(uId);
-//        user.setUserPw(uPw);
-//        user.setUserName(uName);
-//        user.setUserSsn(uSsn);
-//        user.setUserPhone(uPhone);
     	return service.createUser(uId, uPw, uName, uSsn, uPhone);
 
     }
     // 로그인 페이지
-    
     public UserVo loginUser(String uId, String uPw) {
         return service.loginUser(uId, uPw);
-//        User user = new User();
-//        user.setUserId(uId);
-//        user.setUserPw(uPw);
-//        String name = userService.loginUser(user);
-//        if (name == null) {
-//            System.out.println("로그인 실패: 잘못된 아이디 또는 비밀번호입니다.");
-//        } else {
-//            System.out.println(name + "님, 환영합니다!");
-//        }
     }
     // 회원탈퇴 페이지
-    
     public int deleteUser(String uId, String uPw) {
-//        User user = new User();
-//        user.setUserId(uId);
-//        user.setUserPw(uPw);
     	return service.deleteUser(uId, uPw);
     }
-//        int result = userService.deleteUser(user);
-//        if (result > 0) {
-//            System.out.println("회원탈퇴 성공!");
-//        } else {
-//            System.out.println("회원탈퇴 실패!");
-//        }
-//    }
     // 아이디,비밀번호 찾기 페이지
-    
     public UserVo searchUserInfossnph(String uName ,String uSsn, String uPhone) {
     	return service.searchUserInfossnph(uName,uSsn,uPhone);
     }

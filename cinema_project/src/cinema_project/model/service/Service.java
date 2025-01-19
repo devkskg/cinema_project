@@ -162,51 +162,34 @@ public class Service {
     public Connection getConnection() {
     	return TimeTableTemPlate.getConnection();  // TimeTableTemPlate 클래스의 getConnection() 호출
     }
-//	public Connection getConnection() throws Exception {
-//        Class.forName("org.mariadb.jdbc.Driver");
-//        String url = "jdbc:mariadb://127.0.0.1:3306/10nema";
-//       String id = "scott";
-//       String pw = "tiger";
-//       return DriverManager.getConnection(url, id, pw);
-//    }
 
-    
-    
-    
-    
     // 로그인
-    private Dao userDao = new Dao();
-
     public int createUser(String uId,String uPw,String uName,String uSsn,String uPhone) {
         Connection conn = TimeTableTemPlate.getConnection();
-        int result = userDao.createUser(conn, uId, uPw, uName, uSsn, uPhone);
-        TimeTableTemPlate.close(conn);
+        int result = dao.createUser(conn, uId, uPw, uName, uSsn, uPhone);
         return result;
     }
 
     public UserVo loginUser(String uId, String uPw) {
         Connection conn = TimeTableTemPlate.getConnection();
-        UserVo userLogin = userDao.loginUser(conn, uId, uPw);
-        TimeTableTemPlate.close(conn);
+        UserVo userLogin = dao.loginUser(conn, uId, uPw);
         return userLogin;
     }
 
     public int deleteUser(String uId, String uPw) {
         Connection conn = TimeTableTemPlate.getConnection();
-        int result = userDao.deleteUser(conn, uId,uPw);
-        TimeTableTemPlate.close(conn);
+        int result = dao.deleteUser(conn, uId,uPw);
         return result;
     }
     public UserVo searchUserInfossnph(String uName ,String uSsn, String uPhone) {
     	Connection conn = TimeTableTemPlate.getConnection();
-    	UserVo searchuser = userDao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
-    	TimeTableTemPlate.close(conn);
+    	UserVo searchuser = dao.searchUserInfossnph(conn ,uName,uSsn,uPhone);
     	return searchuser;
   
     	
     }
 }
-  
+  //    	TimeTableTemPlate.close(conn);
     
     
     

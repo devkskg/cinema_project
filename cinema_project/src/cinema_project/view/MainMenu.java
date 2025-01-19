@@ -498,10 +498,7 @@ public class MainMenu {
     	} else {
     		System.out.println(name+"\n정보조회가 완료되었습니다.");
     	}
-//    	User searchuser = userService.searchUserInfossnph(user);
-//    	mc.searchUserInfossnph(uName,uSsn,uPhone);
     }
-	
     
 	//회원가입
 	private void createUser() {
@@ -546,7 +543,6 @@ public class MainMenu {
 	    	}
 	  }
 }
-	
 	//회원 탈퇴
 	private void deleteUser() {
 	    System.out.println("=== 회원탈퇴 ===");
@@ -554,8 +550,6 @@ public class MainMenu {
 	    String uId = sc.nextLine();
 	    System.out.print("비밀번호: ");
 	    String uPw = sc.nextLine();
-
-//	    mc.deleteUser(uId, uPw); -> 주석처리한 이유(회원탈퇴 실패로 뜨는 원인)
 	    
 	    int result = mc.deleteUser(uId,uPw);
         if (result > 0) {

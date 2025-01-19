@@ -430,9 +430,6 @@ public class Dao {
 		return result;
 	}
 	
-	
-	
-	
 	// 회원가입
 	public int createUser(Connection conn, String uId,String uPw,String uName,String uSsn,String uPhone) {
         int result = 0;
@@ -456,7 +453,6 @@ public class Dao {
 	
 	// 로그인
     public UserVo loginUser(Connection conn, String uId, String uPw) {
-//        String userName = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         UserVo userLogin = null;

@@ -1,7 +1,7 @@
 package cinema_project.model.vo;
 
 public class UserVo {
-	 private int uNo;
+		private int uNo;
 	    private String uId;
 	    private String uPw;
 	    private String uName;
@@ -42,61 +42,47 @@ public class UserVo {
 			this.uPhone = uPhone;
 		}
 
-//		public int getUserNo() {
-//	        return uNo;
-//	    }
-//
-//	    public void setUserNo(int uNo) {
-//	        this.uNo = uNo;
-//	    }
 
-	    public String getUserId() {
+	    public String getuId() {
 	        return uId;
 	    }
 
-	    public void setUserId(String uId) {
+	    public void setuId(String uId) {
 	        this.uId = uId;
 	    }
 
-	    public String getUserPw() {
+	    public String getuPw() {
 	        return uPw;
 	    }
 
-	    public void setUserPw(String uPw) {
+	    public void setuPw(String uPw) {
 	        this.uPw = uPw;
 	    }
 
-	    public String getUserName() {
+	    public String getuName() {
 	        return uName;
 	    }
 
-	    public void setUserName(String uName) {
+	    public void setuName(String uName) {
 	        this.uName = uName;
 	    }
 
-	    public String getUserSsn() {
+	    public String getuSsn() {
 	        return uSsn;
 	    }
 
-	    public void setUserSsn(String uSsn) {
+	    public void setuSsn(String uSsn) {
 	        this.uSsn = uSsn;
 	    }
 
-	    public String getUserPhone() {
+	    public String getuPhone() {
 	        return uPhone;
 	    }
 
-	    public void setUserPhone(String uPhone) {
+	    public void setuPhone(String uPhone) {
 	        this.uPhone = uPhone;
 	    }
 
-	    public String getUserManager() {
-	        return uManager;
-	    }
-
-	    public void setUserManager(String uManager) {
-	        this.uManager = uManager;
-	    }
 		@Override
 		public String toString() {
 			return "아이디:" + uId + ", 비밀번호:" + uPw + ", 이름:" + uName
