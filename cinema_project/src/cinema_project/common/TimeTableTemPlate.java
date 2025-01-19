@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class JDBCTemplate {
+public class TimeTableTemPlate {
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {
@@ -18,33 +18,53 @@ public class JDBCTemplate {
 			String url = prop.getProperty("url");
 			String user = prop.getProperty("user");
 			String pw = prop.getProperty("pw");
-			conn = DriverManager.getConnection(url, user, pw);
-		} catch (Exception e) {
+			conn = DriverManager.getConnection(url,user,pw);			
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		  return conn;
-	}
+		return conn;
+		}
 	
 	public static void close(Connection conn) {
 		try {
-			if(conn != null && !conn.isClosed()) conn.close();
-		} catch (Exception e) {
+			if(conn != null && !conn.isClosed()) {
+				conn.close();
+			} 
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
 	public static void close(PreparedStatement pstmt) {
 		try {
-			if(pstmt != null && !pstmt.isClosed()) pstmt.close();
-		} catch (Exception e) {
+			if(pstmt != null && !pstmt.isClosed()) {
+				pstmt.close();
+			}
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void close(ResultSet rs) {
+		
+	try {
+		if(rs != null && !rs.isClosed()) rs.close();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+	}
+	
+	public static void close(ResultSet rs, PreparedStatement pstmt) {
 		try {
 			if(rs != null && !rs.isClosed()) rs.close();
-		} catch (Exception e) {
+			if(pstmt != null && !rs.isClosed()); pstmt.close();
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+
 }
+
+
+
+
