@@ -2,7 +2,7 @@ package cinema_project.model.vo;
 
 import java.time.LocalDateTime;
 
-public class Reservationksk {
+public class Reservation {
 	private int rNo;
 	private int uNo;
 	private String mTitle;
@@ -11,14 +11,14 @@ public class Reservationksk {
 	private LocalDateTime rDate;
 	private int timeNo;
 	
-	public Reservationksk() {
+	public Reservation() {
 		super();
 	}
 	
 	
 	
 	
-	public Reservationksk(int rNo, int uNo, String mTitle, String tName, int rSeat, LocalDateTime rDate, int timeNo) {
+	public Reservation(int rNo, int uNo, String mTitle, String tName, int rSeat, LocalDateTime rDate, int timeNo) {
 		super();
 		this.rNo = rNo;
 		this.uNo = uNo;

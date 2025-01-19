@@ -132,5 +132,9 @@ public class MovieVo {
     public String toString() {
         return "[영화 번호: " + mNo + ", 이름: " + mTitle + ", 러닝타임: " + mRuntime + "분, 가격: " + mPrice + ", 상영등급: " + mRating+"]";
     }
+	public String toStringForUser() {
+		return "영화제목 : " + mTitle + ", 러닝타임 : " + mRuntime + ", 티켓가격 : " + mPrice
+				+ ", 나이제한 : " + mRating;
+	}
     
 } 
