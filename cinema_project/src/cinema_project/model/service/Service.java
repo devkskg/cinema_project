@@ -287,13 +287,6 @@ public class Service {
 		close(conn);
 		return thea;
 	} 
-////	유저 나이 조회
-//	public int userAgeCheck(UserVo userLogin) {
-//		Connection conn = getConnection();
-//		int userAge = dao.userAgeCheck(conn, userLogin);
-//		close(conn);
-//		return userAge;
-//	}
     
     
     

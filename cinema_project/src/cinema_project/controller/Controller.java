@@ -183,11 +183,6 @@ public class Controller {
 	public TheaterVo searchTheaterBytName(String theaterName) {
 		return service.searchTheaterBytName(theaterName);
 	}
-////	유저 나이 조회
-//	public int userAgeCheck(UserVo userLogin) {
-//		int userAge = service.userAgeCheck(userLogin);
-//		return userAge;
-//	}
     
     
 	

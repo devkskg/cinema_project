@@ -838,21 +838,6 @@ public class Dao {
 		return thea;
 	} 
 	
-////	유저 나이 조회
-//	public int userAgeCheck(Connection conn, UserVo user) {
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		int userAge = -1;
-//		try {
-//			String sql = "select u_ssn";
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			close(rs, pstmt);
-//		}
-//		return userAge;
-//	}
 	
 	
 	
