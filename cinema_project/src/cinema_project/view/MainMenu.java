@@ -18,7 +18,8 @@ public class MainMenu {
 	private Scanner sc = new Scanner(System.in);
 	private Controller mc = new Controller();
 	
-	private LocalDateTime ldtNow = LocalDateTime.of(2025, 01, 17, 13, 0, 0);
+//	private LocalDateTime ldtNow = LocalDateTime.of(2025, 01, 17, 13, 0, 0);
+	private LocalDateTime ldtNow = LocalDateTime.now();
 //	test용 현재 시간
 	private DateTimeFormatter testdtf = DateTimeFormatter.ofPattern("yyyy년-MM월-dd일, a KK시:mm분:SS초");
 	private DateTimeFormatter qualification = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
@@ -695,9 +696,12 @@ public class MainMenu {
 			if (resSeatNum <= 0) {
 				System.out.println("잘못된 인원입니다.");
 			} else {
+				
+				int userAge = userAgeCheck(userLogin);
+				
 //				선택한 영화의 영화 시간표 조회
 //				연령제한 -- 처음부터 사용자의 나이 정보를 인자로 넣어서 timetableList 가져오자.
-				List<Timetableksk> timetableList = mc.searchTimetableListByMovieTitleDate(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum, qualificationDateTime);
+				List<Timetableksk> timetableList = mc.searchTimetableListByMovieTitleDate(movieList.get(resMovieNum - 1).getmTitle(), resSeatNum, qualificationDateTime, userAge);
 				if (timetableList.isEmpty()) {
 					System.out.println("예매할 수 없는 영화입니다.");
 					return;
@@ -769,55 +773,74 @@ public class MainMenu {
 //	예매 내역 조회
 	public List<Reservation> searchRes(UserVo userLogin) {
 		System.out.println("*** 예매 내역 조회 ***");
-		List<Reservation> searchResList = mc.searchRes(userLogin);
-		if (searchResList.isEmpty()) {
-			System.out.println("예매 내역이 없습니다.");
-		} else {
+		
+//		비밀번호 일치시 예매 내역 조회
+		System.out.print("비밀번호를 입력해주세요 : ");
+		String pw = sc.nextLine();
+		
+		List<Reservation> searchResList = null;
+		if(pw.equals(userLogin.getUserPw())) {
+
+			searchResList = mc.searchRes(userLogin);
+			if (searchResList.isEmpty()) {
+				System.out.println("예매 내역이 없습니다.");
+			} else {
 //			기능 추가
 //			현재 시간 이전/이후로 나눠서 목록 조회
 //			reservation 테이블에 컬럼 하나 만들어서 default로 시간값 넣어주기 필요
-			Timetableksk timetableByTimeNo = null;
-			System.out.println("=== 상영 시간이 지난 영화 내역입니다. ===");
-			for (int i = 1; i <= searchResList.size(); i++) {
-				if(ChronoUnit.SECONDS.between(searchResList.get(i-1).getrDate(), ldtNow)>0) {
+				Timetableksk timetableByTimeNo = null;
+				System.out.println("=== 상영 시간이 지난 영화 내역입니다. ===");
+				for (int i = 1; i <= searchResList.size(); i++) {
 					timetableByTimeNo = mc.searchTimetableListByTimeNo(searchResList.get(i-1).getTimeNo());
-					System.out.println("["+i+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
-				}
+//					if(ChronoUnit.SECONDS.between(searchResList.get(i-1).getrDate(), ldtNow)>0) {
+					if(ChronoUnit.SECONDS.between(timetableByTimeNo.getTimeStart(), ldtNow)>0) {
+						System.out.println("["+i+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
+					}
 					
 				}
-			System.out.println("=== 상영 시작 예정인 영화입니다. ===");
-			int temp = 1;
-			for (int i = 1; i <= searchResList.size(); i++) {
-				if(ChronoUnit.SECONDS.between(searchResList.get(i-1).getrDate(), ldtNow)<=0){
+				System.out.println("=== 상영 시작 예정인 영화입니다. ===");
+				int temp = 1;
+				for (int i = 1; i <= searchResList.size(); i++) {
 					timetableByTimeNo = mc.searchTimetableListByTimeNo(searchResList.get(i-1).getTimeNo());
-					System.out.println("["+temp+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
-					temp++;
+					if(ChronoUnit.SECONDS.between(timetableByTimeNo.getTimeStart(), ldtNow)<=0){
+						System.out.println("["+temp+"번] " + searchResList.get(i - 1) + ", 상영 시간 : " + timetableByTimeNo.getTimeStart().format(testdtf) + " ~ " + timetableByTimeNo.getTimeEnd().format(testdtf));
+						temp++;
+					}
 				}
 			}
+//			return searchResList;
+			
+		} else {
+			System.out.println("비밀번호가 일치하지 않습니다.");
 		}
 		return searchResList;
+				
+		
+		
 	}
 
 //	예매 내역 취소
 	public void deleteRes(UserVo userLogin) {
 		List<Reservation> searchResList = searchRes(userLogin);
-		System.out.println("*** 예매 내역 취소 ***");
-		while (true) {
-			System.out.print("취소할 예매 내역을 선택해주세요 : ");
-			int deleteNum = sc.nextInt();
-			sc.nextLine();
-			if (deleteNum <= 0 || searchResList.size() < deleteNum) {
-				System.out.println("잘못 입력하셨습니다.");
-			} else {
-				int result = mc.deleteRes(searchResList.get(deleteNum - 1));
-				if (result > 0) {
-					System.out.println("예매 내역 취소가 완료되었습니다.");
+		if(searchResList != null) {
+			System.out.println("*** 예매 내역 취소 ***");
+			while (true) {
+				System.out.print("취소할 예매 내역을 선택해주세요 : ");
+				int deleteNum = sc.nextInt();
+				sc.nextLine();
+				if (deleteNum <= 0 || searchResList.size() < deleteNum) {
+					System.out.println("잘못 입력하셨습니다.");
 				} else {
-					System.out.println("예매 내역이 없습니다.");
+					int result = mc.deleteRes(searchResList.get(deleteNum - 1));
+					if (result > 0) {
+						System.out.println("예매 내역 취소가 완료되었습니다.");
+					} else {
+						System.out.println("예매 내역이 없습니다.");
+					}
+					return;
 				}
-				return;
+				
 			}
-
 		}
 	}
 
@@ -921,7 +944,28 @@ public class MainMenu {
 		return mc.searchTheaterBytName(theaterName);
 	}
 	
-	
+//	유저 나이 조회
+	public int userAgeCheck(UserVo userLogin) {
+//		메소드 시작시 유저의 나이를 -1로 선언 및 초기화함으로 나중에 오류 잡을 때 사용 가능할 듯
+		int userAge = -1;
+		String ssn = userLogin.getUserSsn();
+		String ob = "19";
+		String yb = "20";
+		String birthStr = ssn.substring(0, 2); 
+		String genderStr = ssn.substring(7, 8);
+		int birthInt = -1;
+		int genderInt = Integer.parseInt(genderStr);
+		if(genderInt == 1 || genderInt == 2) {
+			ob += birthStr;
+			birthInt = Integer.parseInt(ob);
+		} else {
+//			유저 정보 중 주민등록번호의 8번째 숫자가 1,2를 제외한 사람들은 전부 2000년생 취급
+			yb += birthStr;
+			birthInt = Integer.parseInt(yb);
+		}
+		userAge = ldtNow.getYear() - birthInt;
+		return userAge;
+	}
 	
 	
 	

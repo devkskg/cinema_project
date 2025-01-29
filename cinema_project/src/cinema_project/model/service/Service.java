@@ -223,9 +223,9 @@ public class Service {
     
 
 //	선택한 영화의 시간표 조회 영화 제목과 정해진 시간으로 조회
-	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime) {
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime, int userAge) {
 		Connection conn = getConnection();
-		List<Timetableksk> list = dao.searchTimetableListByMovieTitleDate(conn, movieTitle, resSeatNum, qualificationDateTime);
+		List<Timetableksk> list = dao.searchTimetableListByMovieTitleDate(conn, movieTitle, resSeatNum, qualificationDateTime, userAge);
 		close(conn);
 		return list;
 	}
@@ -287,7 +287,13 @@ public class Service {
 		close(conn);
 		return thea;
 	} 
-    
+////	유저 나이 조회
+//	public int userAgeCheck(UserVo userLogin) {
+//		Connection conn = getConnection();
+//		int userAge = dao.userAgeCheck(conn, userLogin);
+//		close(conn);
+//		return userAge;
+//	}
     
     
     
