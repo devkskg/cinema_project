@@ -148,8 +148,8 @@ public class Controller {
 	}
 
 //	선택한 영화의 시간표 조회 영화 제목과 정해진 시간으로 조회
-	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime) {
-		return service.searchTimetableListByMovieTitleDate(movieTitle, resSeatNum, qualificationDateTime);
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(String movieTitle, int resSeatNum, String qualificationDateTime, int userAge) {
+		return service.searchTimetableListByMovieTitleDate(movieTitle, resSeatNum, qualificationDateTime, userAge);
 	}
 //	선택한 영화의 시간표 조회 시간표번호로 조회
 	public Timetableksk searchTimetableListByTimeNo(int TimeNo) {
@@ -182,7 +182,7 @@ public class Controller {
 //	할인 조회 - 좌석 앞에서 3번째 줄 조회 - 를 위한 상영관 이름으로 상영관 정보 조회
 	public TheaterVo searchTheaterBytName(String theaterName) {
 		return service.searchTheaterBytName(theaterName);
-	}    
+	}
     
     
 	

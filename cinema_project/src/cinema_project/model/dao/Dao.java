@@ -565,16 +565,17 @@ public class Dao {
 	
 
 //	선택한 영화의 시간표 조회 영화 제목과 정해진 시간으로 조회
-	public List<Timetableksk> searchTimetableListByMovieTitleDate(Connection conn, String movieTitle, int resSeatNum, String qualificationDateTime) {
+	public List<Timetableksk> searchTimetableListByMovieTitleDate(Connection conn, String movieTitle, int resSeatNum, String qualificationDateTime, int userAge) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Timetableksk> list = new ArrayList<Timetableksk>();
 		try {
-			String sql = "select time.* ,t.t_seat from timetable time join theater t on time.t_name = t.t_name where time.m_title = ? and t.t_seat >= ? and time.time_start > str_to_date(?, '%Y-%m-%d %T')";
+			String sql = "select time.* ,t.t_seat ,m.m_rating from timetable time join theater t on time.t_name = t.t_name join movie m on time.m_title = m.m_title where time.m_title = ? and t.t_seat >= ? and time.time_start > str_to_date(?, '%Y-%m-%d %T') and m.m_rating <= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, movieTitle);
 			pstmt.setInt(2, resSeatNum);
 			pstmt.setString(3, qualificationDateTime);
+			pstmt.setInt(4, userAge);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				list.add(new Timetableksk(rs.getInt("time.time_no"), rs.getString("time.m_title"),
@@ -681,6 +682,7 @@ public class Dao {
 		try {
 //			테스트 필요
 			String sql = "select * from reservation where u_no = ?";
+//			String sql = "select r.* t.time_start from reservation r join timetable t r.time_no = t.time_no where u_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userLogin.getuNo());
 			rs = pstmt.executeQuery();
@@ -835,6 +837,7 @@ public class Dao {
 		}
 		return thea;
 	} 
+	
 	
 	
 	
